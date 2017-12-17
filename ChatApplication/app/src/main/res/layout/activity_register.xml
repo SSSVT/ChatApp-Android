@@ -39,8 +39,7 @@
                 android:ems="10"
                 android:hint="First name"
                 android:inputType="text"
-                android:text="@{viewModel.user.firstName}"
-                app:error="@{viewModel.firstNameError}" />
+                android:text="@{viewModel.user.firstName}" />
 
             <EditText
                 android:id="@+id/editText_middleName"
@@ -123,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="REGISTER NOW"
-                android:onClick="@{() -> viewModel.register()}"/>
+                android:onClick="@{viewModel.onRegisterClicked()}"/>
 
         </LinearLayout>
 

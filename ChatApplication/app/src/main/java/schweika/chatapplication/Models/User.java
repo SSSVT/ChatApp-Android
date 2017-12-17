@@ -4,11 +4,11 @@ package schweika.chatapplication.Models;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
-import java.util.Observable;
+
+import schweika.chatapplication.BR;
 
 public class User extends BaseObservable
 {

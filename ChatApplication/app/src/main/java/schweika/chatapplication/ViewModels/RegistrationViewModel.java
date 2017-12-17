@@ -4,6 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import javax.xml.validation.Validator;
 
@@ -28,31 +31,26 @@ public class RegistrationViewModel extends BaseObservable
         return user;
     }
 
-    @Bindable
-    public String getFirstNameError()
+    public View.OnClickListener onRegisterClicked()
     {
-        if (user.getFirstName() == "")
-        {
-            return "First name can't be empty";
-        }
+        return new View.OnClickListener() {
 
-        return null;
-    }
+            @Override
+            public void onClick(View view)
+            {
+                Toast.makeText(view.getContext(), "Registered", Toast.LENGTH_SHORT).show();
+            }
+        };
 
-    public void register()
-    {
-        Log.i("Success","lul");
     }
 
     public void setGenderFemale()
     {
         user.setGender('F');
-        Log.i("Success","Female");
     }
 
     public void setGenderMale()
     {
         user.setGender('M');
-        Log.i("Success","Male");
     }
 }
