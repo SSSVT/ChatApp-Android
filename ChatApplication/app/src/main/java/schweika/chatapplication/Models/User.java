@@ -4,24 +4,19 @@ package schweika.chatapplication.Models;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Date;
 
-import schweika.chatapplication.BR;
-
-public class User extends BaseObservable
+public class User
 {
-    @SerializedName("firstName")
     private String firstName;
     private String middleName;
     private String lastName;
-    private Date birthDay;
+    private Date birthDate;
     private char gender;
+    private String email;
     private String username;
     private String password;
 
-    @Bindable
     public String getFirstName()
     {
         return firstName;
@@ -30,7 +25,6 @@ public class User extends BaseObservable
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
-        notifyPropertyChanged(BR.firstName);
     }
 
     public String getMiddleName()
@@ -53,14 +47,14 @@ public class User extends BaseObservable
         this.lastName = lastName;
     }
 
-    public Date getBirthDay()
+    public Date getBirthDate()
     {
-        return birthDay;
+        return birthDate;
     }
 
-    public void setBirthDay(Date birthDay)
+    public void setBirthDate(Date birthDate)
     {
-        this.birthDay = birthDay;
+        this.birthDate = birthDate;
     }
 
     public char getGender()
@@ -72,6 +66,16 @@ public class User extends BaseObservable
     {
         if (gender == 'M' || gender == 'F')
             this.gender = gender;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 
     public String getUsername()

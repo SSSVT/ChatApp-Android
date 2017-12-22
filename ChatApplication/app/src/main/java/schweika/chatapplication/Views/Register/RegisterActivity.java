@@ -14,7 +14,7 @@ import schweika.chatapplication.databinding.ActivityRegisterBinding;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements RegisterContract.View
+public class RegisterActivity extends AppCompatActivity
 {
     ActivityRegisterBinding binding;
 
@@ -26,28 +26,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterContr
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register);
 
         binding.setViewModel(new RegistrationViewModel());
-    }
 
-    public void buttonRegisterClick(View view)
-    {
-
-    }
-
-    protected User getUser()
-    {
-        return binding.getViewModel().getUser();
-    }
-
-    @Override
-    public void registerFailed()
-    {
-
-    }
-
-    @Override
-    public void registerSuccess()
-    {
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
 
