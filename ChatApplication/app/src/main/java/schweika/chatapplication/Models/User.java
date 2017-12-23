@@ -4,6 +4,8 @@ package schweika.chatapplication.Models;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class User
@@ -11,6 +13,7 @@ public class User
     private String firstName;
     private String middleName;
     private String lastName;
+    @SerializedName("birthDay")
     private Date birthDate;
     private char gender;
     private String email;

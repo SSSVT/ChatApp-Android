@@ -10,11 +10,14 @@ import java.util.Date;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.User;
 import schweika.chatapplication.Models.UserValidator;
+import schweika.chatapplication.Repositories.RetrofitCallback;
+import schweika.chatapplication.Repositories.UserRepository;
 
 public class RegistrationViewModel extends BaseObservable
 {
     private User user;
     private UserValidator validator;
+    private UserRepository repository = new UserRepository();
 
     public RegistrationViewModel()
     {
@@ -172,7 +175,22 @@ public class RegistrationViewModel extends BaseObservable
             public void onClick(View view)
             {
                 if (validator.isUserValid())
-                    Toast.makeText(view.getContext(), user.getUsername() + " Registered", Toast.LENGTH_SHORT).show();
+                {
+                    repository.add(user, new RetrofitCallback()
+                    {
+                        @Override
+                        public void onSuccess()
+                        {
+                            Toast.makeText(view.getContext(), user.getUsername() + " Registered", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure()
+                        {
+                            Toast.makeText(view.getContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         };
 

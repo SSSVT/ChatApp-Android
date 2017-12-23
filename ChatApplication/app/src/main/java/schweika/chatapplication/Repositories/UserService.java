@@ -1,19 +1,22 @@
 package schweika.chatapplication.Repositories;
 
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import schweika.chatapplication.Models.User;
 
 public interface UserService
 {
-    String ENDPOINT = "http://192.168.1.201:60141/api/v1";
+    String ENDPOINT = "http://192.168.1.201:61489/api/v1/Registration/";
 
-    @POST("users")
-    Call<User> add(User user);
+    @POST("Register")
+    Call<RequestBody> register(@Body User user);
 
-    @GET("")
-    Call<Boolean> isUsernameTaken(String username);
+    @GET("IsUsernameAvailable")
+    Call<RequestBody> isUsernameAvailable(@Body String username);
 
     @GET("")
     Call<User> login(String username, String Password);
