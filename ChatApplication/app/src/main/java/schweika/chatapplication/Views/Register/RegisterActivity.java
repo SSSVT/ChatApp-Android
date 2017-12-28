@@ -4,19 +4,15 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 
-import schweika.chatapplication.Models.User;
 import schweika.chatapplication.R;
-import schweika.chatapplication.ViewModels.RegistrationViewModel;
+import schweika.chatapplication.ViewModels.RegisterViewModel;
 import schweika.chatapplication.databinding.ActivityRegisterBinding;
 
-/**
- * A login screen that offers login via email/password.
- */
-public class RegisterActivity extends AppCompatActivity
+public class RegisterActivity extends AppCompatActivity implements RegisterListener
 {
     ActivityRegisterBinding binding;
+    RegisterViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,10 +20,17 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register);
-
-        binding.setViewModel(new RegistrationViewModel());
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewModel = new RegisterViewModel(this);
+
+        binding.setViewModel(viewModel);
+    }
+
+    @Override
+    public void registered()
+    {
+        finish();
     }
 }
 

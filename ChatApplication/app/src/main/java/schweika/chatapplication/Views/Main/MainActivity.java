@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import schweika.chatapplication.Models.User;
 import schweika.chatapplication.R;
+import schweika.chatapplication.Views.LoggedIn.LoggedInActivity;
 import schweika.chatapplication.Views.LoggedOff.LoggedOffActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -19,18 +20,19 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("login",Context.MODE_PRIVATE);
 
-        String user = sharedPreferences.getString("user","");
+        String jwt = sharedPreferences.getString("JWT","");
 
-        if (user == "")
+        if (jwt == "")
         {
             Intent intent = new Intent(this, LoggedOffActivity.class);
             startActivity(intent);
         }
         else
         {
-
+            Intent intent = new Intent(this, LoggedInActivity.class);
+            startActivity(intent);
         }
     }
 }

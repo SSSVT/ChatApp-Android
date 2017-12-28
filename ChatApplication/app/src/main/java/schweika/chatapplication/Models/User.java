@@ -6,15 +6,21 @@ import android.databinding.Bindable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class User
 {
-    private String firstName;
+    @SerializedName("firstName")
+    public String firstName;
+    @SerializedName("middleName")
     private String middleName;
+    @SerializedName("lastName")
     private String lastName;
-    @SerializedName("birthDay")
+    @SerializedName("birthdate")
+    //private Calendar birthDate;
     private Date birthDate;
+    @SerializedName("gender")
     private char gender;
     private String email;
     private String username;
@@ -49,6 +55,16 @@ public class User
     {
         this.lastName = lastName;
     }
+
+    /*public Calendar getBirthDate()
+    {
+        return birthDate;
+    }/*
+
+    /*public void setBirthDate(Calendar birthDate)
+    {
+        this.birthDate = birthDate;
+    }*/
 
     public Date getBirthDate()
     {

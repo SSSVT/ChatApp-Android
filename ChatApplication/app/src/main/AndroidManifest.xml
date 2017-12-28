@@ -14,12 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.LoggedOff.LoggedOffActivity"
-            android:label="Chat application">
-        </activity>
+        <activity
+            android:name=".Views.LoggedOff.LoggedOffActivity"
+            android:label="Chat application" />
         <activity
             android:name=".Views.Login.LoginActivity"
             android:label="@string/title_activity_login" />
+        android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
         <activity
             android:name=".Views.Register.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -32,6 +33,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Views.RecyclerView.RecyclerViewActivity" />
+        <activity android:name=".Views.LoggedIn.LoggedInActivity"></activity>
     </application>
 
 </manifest>

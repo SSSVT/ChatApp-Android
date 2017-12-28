@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="schweika.chatapplication.ViewModels.RegistrationViewModel" />
+            type="schweika.chatapplication.ViewModels.RegisterViewModel" />
     </data>
 
 <LinearLayout
@@ -20,7 +22,7 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/register_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,46 +31,39 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/editText_username"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:text="@={viewModel.username}"
+                app:error="@{viewModel.usernameError}" />
 
-                <EditText
-                    android:id="@+id/editText_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Username"
-                    android:inputType="textPersonName"
-                    android:text="@={viewModel.username}"
-                    app:error="@{viewModel.usernameError}" />
+            <EditText
+                android:id="@+id/editText_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:text="@={viewModel.email}"
+                app:error="@{viewModel.emailError}" />
 
-                <EditText
-                    android:id="@+id/editText_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Email"
-                    android:inputType="textPersonName"
-                    android:text="@={viewModel.email}"
-                    app:error="@{viewModel.emailError}"/>
-
-                <EditText
-                    android:id="@+id/editText_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:text="@={viewModel.password}"
-                    android:textAlignment="viewStart"
-                    app:error="@{viewModel.passwordError}" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:text="@={viewModel.password}"
+                android:textAlignment="viewStart"
+                app:error="@{viewModel.passwordError}" />
 
             <EditText
                 android:id="@+id/editText_firstName"
@@ -88,7 +83,7 @@
                 android:hint="Middle name"
                 android:inputType="text"
                 android:text="@={viewModel.middleName}"
-                app:error="@{viewModel.middleNameError}"/>
+                app:error="@{viewModel.middleNameError}" />
 
             <EditText
                 android:id="@+id/editText_lastName"
@@ -98,7 +93,7 @@
                 android:hint="Last name"
                 android:inputType="textPersonName"
                 android:text="@={viewModel.lastName}"
-                app:error="@{viewModel.lastNameError}"/>
+                app:error="@{viewModel.lastNameError}" />
 
             <RadioGroup
                 android:id="@+id/radioGroup_gender"
@@ -138,19 +133,33 @@
                 android:text="Birth date"
                 android:textAlignment="center" />
 
-            <CalendarView
-                android:id="@+id/calendarView_birthDate"
+            <DatePicker
+                android:id="@+id/datePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:date="@={viewModel.birthDate}"/>
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:day="@={viewModel.birthDay}"
+                android:month="@={viewModel.birthMonth}"
+                android:year="@={viewModel.birthYear}" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="@{viewModel.processingState ? View.VISIBLE : View.GONE}" />
 
             <Button
                 android:id="@+id/button_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGISTER NOW"
-                android:onClick="@{viewModel.onRegisterClicked()}"/>
+                android:layout_weight="1"
+                android:text="Register"
+                android:onClick="@{() -> viewModel.onRegisterClicked()}"
+                android:visibility="@{viewModel.processingState ? View.GONE : View.VISIBLE}" />
 
         </LinearLayout>
 

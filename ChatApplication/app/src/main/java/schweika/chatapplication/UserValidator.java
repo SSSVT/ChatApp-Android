@@ -1,4 +1,6 @@
-package schweika.chatapplication.Models;
+package schweika.chatapplication;
+
+import schweika.chatapplication.Models.User;
 
 public class UserValidator
 {
@@ -12,6 +14,18 @@ public class UserValidator
     public void setUser(User user)
     {
         this.user = user;
+    }
+
+    private boolean isUsernameAvailable;
+
+    public boolean isUsernameAvailable()
+    {
+        return isUsernameAvailable;
+    }
+
+    public void setUsernameAvailable(boolean usernameAvailable)
+    {
+        isUsernameAvailable = usernameAvailable;
     }
 
     public boolean isUsernameValid()
@@ -30,6 +44,10 @@ public class UserValidator
             return null;
         else if (user.getUsername().equals(""))
             return "You must enter a username.";
+        else if (user.getUsername().length() < 4)
+            return "You must enter a username with at least 4 characters";
+        else if (!isUsernameAvailable)
+            return "Username is not available.";
 
         return null;
     }
@@ -60,6 +78,8 @@ public class UserValidator
             return false;
         else if (user.getPassword().equals(""))
             return  false;
+        else if (user.getPassword().length() < 8)
+            return false;
 
         return true;
     }
@@ -70,6 +90,8 @@ public class UserValidator
             return null;
         else if (user.getPassword().equals(""))
             return "You must enter a password.";
+        else if (user.getPassword().length() < 8)
+            return "Password must have at least 8 characters.";
 
         return null;
     }
@@ -167,6 +189,34 @@ public class UserValidator
             return false;
         if (!isPasswordValid())
             return false;
+        if (!isFirstNameValid())
+            return false;
+        if (!isMiddleNameValid())
+            return false;
+        if (!isLastNameValid())
+            return false;
+        if (!isGenderValid())
+            return false;
+        if (!isBirthDateValid())
+            return false;
+
+        return true;
+    }
+
+    public boolean isCredentialsValid()
+    {
+        if (!isUsernameValid())
+            return false;
+        if (!isEmailValid())
+            return false;
+        if (!isPasswordValid())
+            return false;
+
+        return true;
+    }
+
+    public boolean isDetailsValid()
+    {
         if (!isFirstNameValid())
             return false;
         if (!isMiddleNameValid())

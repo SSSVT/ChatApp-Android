@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import schweika.chatapplication.Views.List.ListActivity;
 import schweika.chatapplication.Views.Login.LoginActivity;
-import schweika.chatapplication.Views.Main.MainActivity;
+import schweika.chatapplication.Views.RecyclerView.RecyclerViewActivity;
 import schweika.chatapplication.Views.Register.RegisterActivity;
 import schweika.chatapplication.R;
 
@@ -38,10 +37,9 @@ public class LoggedOffActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void List(View view)
+    public void RecyclerView(View view)
     {
-        Intent intent = new Intent(this,ListActivity.class);
+        Intent intent = new Intent(this, RecyclerViewActivity.class);
         startActivity(intent);
     }
-
 }

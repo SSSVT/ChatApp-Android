@@ -1,53 +1,117 @@
 package schweika.chatapplication.ViewModels;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import java.util.concurrent.Future;
+
+import retrofit2.Response;
+import schweika.chatapplication.BR;
+import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.UserCredentials;
+import schweika.chatapplication.Repositories.FutureTokenRepository;
+import schweika.chatapplication.Repositories.RetrofitCallback;
+import schweika.chatapplication.Repositories.TokenRepository;
 import schweika.chatapplication.Views.Login.LoginViewModelListener;
 
-public class LoginViewModel
+public class LoginViewModel extends BaseObservable
 {
-    private String username;
-    private String password;
+    private TokenRepository userRepository = new TokenRepository();
+    private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
+    private UserCredentials userCredentials;
     private LoginViewModelListener listener;
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
+    private boolean processingState;
 
     public LoginViewModel(LoginViewModelListener listener)
     {
         this.listener = listener;
+        this.userCredentials = new UserCredentials();
     }
+
+    public LoginViewModel(LoginViewModelListener listener,UserCredentials userCredentials)
+    {
+        this.listener = listener;
+        this.userCredentials = userCredentials;
+    }
+
+    @Bindable
+    public boolean getProcessingState()
+    {
+        return this.processingState;
+    }
+
+    private void setProcessingState(boolean value)
+    {
+        this.processingState = value;
+        notifyPropertyChanged(BR.processingState);
+    }
+
+    @Bindable
+    public String getUsername()
+    {
+        return userCredentials.getUsername();
+    }
+
+    public void setUsername(String username)
+    {
+        userCredentials.setUsername(username);
+        notifyPropertyChanged(BR.username);
+    }
+
+    @Bindable
+    public String getPassword()
+    {
+        return userCredentials.getPassword();
+    }
+
+
 
     public void setPassword(String password)
     {
-        this.password = password;
+        userCredentials.setPassword(password);
+        notifyPropertyChanged(BR.password);
     }
 
-    public View.OnClickListener onLoginClick()
+    public void onLoginClick()
     {
-        //TODO: Login
+        setProcessingState(true);
 
-        return new View.OnClickListener()
+        Future<Response<Token>> futureResponse = futureTokenRepository.loginAsync(userCredentials);
+
+        try
+        {
+            Response<Token> response = futureResponse.get();
+
+            if (response.isSuccessful())
+            {
+                listener.onLoginSuccess(response.body());
+            }
+            else
+            {
+                //TODO: show error
+            }
+        }
+        catch (Exception e)
+        {
+            //TODO: show error
+        }
+
+        setProcessingState(false);
+        /*userRepository.login(userCredentials, new RetrofitCallback<Token>()
         {
             @Override
-            public void onClick(View view)
+            public void onSuccess(Response<Token> jwtResponse)
             {
-                Toast.makeText(view.getContext(), username + " Logged in", Toast.LENGTH_SHORT).show();
+                setProcessingState(false);
+                listener.onLoginSuccess(jwtResponse.body());
             }
-        };
+
+            @Override
+            public void onFailure()
+            {
+                setProcessingState(false);
+                listener.onLoginFailure();
+            }
+        });*/
     }
 }
