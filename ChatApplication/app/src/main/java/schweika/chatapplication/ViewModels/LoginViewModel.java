@@ -5,18 +5,19 @@ import android.databinding.Bindable;
 
 import java.util.concurrent.Future;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.UserCredentials;
 import schweika.chatapplication.Repositories.FutureTokenRepository;
-import schweika.chatapplication.Repositories.RetrofitCallback;
-import schweika.chatapplication.Repositories.TokenRepository;
+import schweika.chatapplication.Repositories.AuthenticationRepository;
 import schweika.chatapplication.Views.Login.LoginViewModelListener;
 
 public class LoginViewModel extends BaseObservable
 {
-    private TokenRepository userRepository = new TokenRepository();
+    private AuthenticationRepository userRepository = new AuthenticationRepository();
     private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
     private UserCredentials userCredentials;
     private LoginViewModelListener listener;
@@ -76,7 +77,7 @@ public class LoginViewModel extends BaseObservable
     {
         setProcessingState(true);
 
-        Future<Response<Token>> futureResponse = futureTokenRepository.loginAsync(userCredentials);
+        /*Future<Response<Token>> futureResponse = futureTokenRepository.loginAsync(userCredentials);
 
         try
         {
@@ -96,22 +97,31 @@ public class LoginViewModel extends BaseObservable
             //TODO: show error
         }
 
-        setProcessingState(false);
-        /*userRepository.login(userCredentials, new RetrofitCallback<Token>()
+        setProcessingState(false);*/
+
+        userRepository.login(userCredentials, new Callback<Token>()
         {
             @Override
-            public void onSuccess(Response<Token> jwtResponse)
+            public void onResponse(Call<Token> call, Response<Token> response)
             {
-                setProcessingState(false);
-                listener.onLoginSuccess(jwtResponse.body());
+                if (response.isSuccessful())
+                {
+                    setProcessingState(false);
+                    listener.onLoginSuccess(response.body());
+                }
+                else
+                {
+                    listener.onLoginFailure();
+                    setProcessingState(false);
+                }
             }
 
             @Override
-            public void onFailure()
+            public void onFailure(Call<Token> call, Throwable t)
             {
                 setProcessingState(false);
                 listener.onLoginFailure();
             }
-        });*/
+        });
     }
 }

@@ -4,19 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import okhttp3.RequestBody;
-import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.User;
 import schweika.chatapplication.Models.UserCredentials;
+import schweika.chatapplication.Repositories.Services.TokenService;
 
 /**
  * Created by patri on 28.12.2017.
@@ -34,7 +33,7 @@ public class FutureTokenRepository
 
     TokenService client = retrofit.create(TokenService.class);
 
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private ExecutorService executor = Executors.newCachedThreadPool();
 
     public Future<Response<Token>> loginAsync(UserCredentials userCredentials)
     {
@@ -52,12 +51,24 @@ public class FutureTokenRepository
         });
     }*/
 
-    public Future<Response<RequestBody>> registerAsync(User user)
+    public Future<Response<Void>> registerAsync(User user)
     {
         return executor.submit(() ->
         {
             return client.register(user).execute();
         });
+    }
+
+    public Response<Void> register(User user)
+    {
+        try
+        {
+            return client.register(user).execute();
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
     }
 
     public Future<Response<Boolean>> isUsernameAvailableAsync(String username)
@@ -74,7 +85,7 @@ public class FutureTokenRepository
         {
             return client.isUsernameAvailable(username).execute();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             return null;
         }

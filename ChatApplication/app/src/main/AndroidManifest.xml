@@ -19,22 +19,22 @@
             android:label="Chat application" />
         <activity
             android:name=".Views.Login.LoginActivity"
-            android:label="@string/title_activity_login" />
-        android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
         <activity
             android:name=".Views.Register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
-        <activity android:name=".Views.List.ListActivity" />
         <activity android:name=".Views.Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.RecyclerView.RecyclerViewActivity" />
-        <activity android:name=".Views.LoggedIn.LoggedInActivity"></activity>
+        <activity
+            android:name=".Views.RecyclerView.RecyclerViewActivity" />
+        <activity
+            android:name=".Views.LoggedIn.LoggedInActivity"
+            android:theme="@style/AppThemeNoActionBar" />
     </application>
-
 </manifest>

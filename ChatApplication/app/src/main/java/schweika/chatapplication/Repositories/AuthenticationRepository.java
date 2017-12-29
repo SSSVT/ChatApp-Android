@@ -3,8 +3,6 @@ package schweika.chatapplication.Repositories;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.concurrent.Future;
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,8 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.User;
 import schweika.chatapplication.Models.UserCredentials;
+import schweika.chatapplication.Repositories.Services.TokenService;
 
-public class TokenRepository
+public class AuthenticationRepository
 {
     Gson gson = new GsonBuilder()
             //.setDateFormat("dd-MM-yyyy'T'HH:mm:ss")
@@ -28,61 +27,23 @@ public class TokenRepository
 
     TokenService client = retrofit.create(TokenService.class);
 
-    public void register(User user)
+
+    public void register(User user, Callback<Void> callback)
     {
-        client.register(user).enqueue(new Callback<RequestBody>()
-        {
-            @Override
-            public void onResponse(Call<RequestBody> call, Response<RequestBody> response)
-            {
-
-            }
-
-            @Override
-            public void onFailure(Call<RequestBody> call, Throwable t)
-            {
-
-            }
-        });
+        client.register(user).enqueue(callback);
     }
 
-    public void register(User user, RetrofitCallback<RequestBody> callback)
+    public void login(UserCredentials userCredentials, Callback<Token> callback)
     {
-        client.register(user).enqueue(new Callback<RequestBody>()
-        {
-            @Override
-            public void onResponse(Call<RequestBody> call, Response<RequestBody> response)
-            {
-                callback.onSuccess(response);
-            }
-
-            @Override
-            public void onFailure(Call<RequestBody> call, Throwable t)
-            {
-                callback.onFailure();
-            }
-        });
+        client.login(userCredentials).enqueue(callback);
     }
 
-    public void login(UserCredentials userCredentials)
+    public void isUsernameAvailable(String username, Callback<Boolean> callback)
     {
-        client.login(userCredentials).enqueue(new Callback<Token>()
-        {
-            @Override
-            public void onResponse(Call<Token> call, Response<Token> response)
-            {
-
-            }
-
-            @Override
-            public void onFailure(Call<Token> call, Throwable t)
-            {
-
-            }
-        });
+        client.isUsernameAvailable(username).enqueue(callback);
     }
 
-    public void login(UserCredentials userCredentials, RetrofitCallback<Token> callback)
+    /*public void login(UserCredentials userCredentials, RetrofitCallback<Token> callback)
     {
         client.login(userCredentials).enqueue(new Callback<Token>()
         {
@@ -130,5 +91,5 @@ public class TokenRepository
                 callback.onFailure();
             }
         });
-    }
+    }*/
 }

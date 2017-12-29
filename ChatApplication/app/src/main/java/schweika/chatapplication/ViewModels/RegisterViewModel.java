@@ -2,32 +2,24 @@ package schweika.chatapplication.ViewModels;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
-import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.User;
-import schweika.chatapplication.Repositories.FutureTokenRepository;
-import schweika.chatapplication.Repositories.RetrofitCallback;
 import schweika.chatapplication.UserValidator;
-import schweika.chatapplication.Repositories.TokenRepository;
+import schweika.chatapplication.Repositories.AuthenticationRepository;
 import schweika.chatapplication.Views.Register.RegisterListener;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class RegisterViewModel extends BaseObservable
 {
     private User user;
     private UserValidator validator;
-    private TokenRepository repository = new TokenRepository();
-    private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
+    private AuthenticationRepository repository = new AuthenticationRepository();
+    //private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
     private Boolean processingState = false;
     private RegisterListener listener;
 
@@ -92,7 +84,10 @@ public class RegisterViewModel extends BaseObservable
     {
         user.setUsername(username);
 
-        getUsernameAvailability();
+        if (validator.isUsernameValid())
+        {
+            getUsernameAvailability();
+        }
 
         validator.setUsernameAvailable(true);
         notifyPropertyChanged(BR.username);
@@ -113,11 +108,11 @@ public class RegisterViewModel extends BaseObservable
 
     private void getUsernameAvailability()
     {
-        CompletableFuture<Response<Boolean>> responseFuture = CompletableFuture.supplyAsync(() -> futureTokenRepository.isUsernameAvailable(user.getUsername()));
+        /*CompletableFuture<Response<Boolean>> responseFuture = CompletableFuture.supplyAsync(() -> futureTokenRepository.isUsernameAvailable(user.getUsername()));
 
-        responseFuture.thenAccept(this::updateUsernameAvailability);
+        responseFuture.thenAccept(this::updateUsernameAvailability);*/
 
-        responseFuture.thenAccept(response ->
+        /*responseFuture.thenAccept(response ->
         {
             if (response.body())
             {
@@ -129,7 +124,7 @@ public class RegisterViewModel extends BaseObservable
             }
 
             notifyPropertyChanged(BR.usernameError);
-        });
+        });*/
 
         /*Future<Response<Boolean>> responseFuture =  futureTokenRepository.isUsernameAvailableAsync(user.getUsername());
 
@@ -152,10 +147,10 @@ public class RegisterViewModel extends BaseObservable
         {
         }*/
 
-        /*repository.getUsernameAvailability(user.getUsername(), new RetrofitCallback<Boolean>()
+        repository.isUsernameAvailable(user.getUsername(), new Callback<Boolean>()
         {
             @Override
-            public void onSuccess(Response<Boolean> response)
+            public void onResponse(Call<Boolean> call, Response<Boolean> response)
             {
                 if (response.body())
                 {
@@ -170,11 +165,12 @@ public class RegisterViewModel extends BaseObservable
             }
 
             @Override
-            public void onFailure()
+            public void onFailure(Call<Boolean> call, Throwable t)
             {
 
             }
-        });*/
+
+        });
     }
 
     private void updateUsernameAvailability(Response<Boolean> response)
@@ -322,21 +318,40 @@ public class RegisterViewModel extends BaseObservable
         if (validator.isUserValid())
         {
             setProcessingState(true);
-            repository.register(user, new RetrofitCallback<RequestBody>()
+
+            /*CompletableFuture<Response<Void>> future = CompletableFuture.supplyAsync(() -> futureTokenRepository.register(user));
+
+            future.thenAccept(this::successfullyRegistered);*/
+
+            repository.register(user, new Callback<Void>()
             {
                 @Override
-                public void onSuccess(Response<RequestBody> bodyResponse)
+                public void onResponse(Call<Void> call, Response<Void> response)
                 {
-                    listener.registered();
+                    if (response.isSuccessful())
+                    {
+                        listener.registered();
+                    }
+
                     setProcessingState(false);
                 }
 
                 @Override
-                public void onFailure()
+                public void onFailure(Call<Void> call, Throwable t)
                 {
                     setProcessingState(false);
                 }
             });
+        }
+    }
+
+    private void successfullyRegistered(Response<Void> response)
+    {
+        setProcessingState(false);
+
+        if (response.isSuccessful())
+        {
+            listener.registered();
         }
     }
 }

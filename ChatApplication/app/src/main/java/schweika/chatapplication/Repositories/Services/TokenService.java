@@ -1,6 +1,7 @@
-package schweika.chatapplication.Repositories;
+package schweika.chatapplication.Repositories.Services;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -12,10 +13,10 @@ import schweika.chatapplication.Models.UserCredentials;
 
 public interface TokenService
 {
-    String ENDPOINT = "http://192.168.1.201:56199/api/v1/";
+    String ENDPOINT = "http://192.168.1.201:51212/api/v1/";
 
     @POST("Registration/Register")
-    Call<RequestBody> register(@Body User user);
+    Call<Void> register(@Body User user);
 
     @GET("Registration/IsUsernameAvailable")
     Call<Boolean> isUsernameAvailable(@Query("id") String username);

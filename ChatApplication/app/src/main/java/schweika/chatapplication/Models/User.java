@@ -6,13 +6,16 @@ import android.databinding.Bindable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
 public class User
 {
+    @SerializedName("id")
+    private long id;
     @SerializedName("firstName")
-    public String firstName;
+    private String firstName;
     @SerializedName("middleName")
     private String middleName;
     @SerializedName("lastName")
@@ -20,10 +23,14 @@ public class User
     @SerializedName("birthdate")
     //private Calendar birthDate;
     private Date birthDate;
+
     @SerializedName("gender")
     private char gender;
+    @SerializedName("email")
     private String email;
+    @SerializedName("username")
     private String username;
+    @SerializedName("password")
     private String password;
 
     public String getFirstName()

@@ -11,8 +11,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.User;
 import schweika.chatapplication.R;
+import schweika.chatapplication.Repositories.TokenSingleton;
+import schweika.chatapplication.Repositories.UsersRepository;
 import schweika.chatapplication.ViewModels.LoginViewModel;
 import schweika.chatapplication.Views.LoggedIn.LoggedInActivity;
 import schweika.chatapplication.databinding.ActivityLoginBinding;
@@ -42,7 +48,23 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         editor.putString("JWT",jsonJWT);
         editor.apply();
 
-        openLoggedInActivity();
+        TokenSingleton.getInstance().setToken(token);
+
+        new UsersRepository(token).getCurrentUser(new Callback<User>()
+        {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response)
+            {
+                TokenSingleton.getInstance().setUser(response.body());
+                openLoggedInActivity();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t)
+            {
+
+            }
+        });
     }
 
     private void openLoggedInActivity()
