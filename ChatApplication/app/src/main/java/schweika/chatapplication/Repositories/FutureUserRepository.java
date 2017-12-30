@@ -2,7 +2,6 @@ package schweika.chatapplication.Repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
 
 import java.io.IOException;
 import java.util.Date;
@@ -14,9 +13,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import schweika.chatapplication.DateDeserializer;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
-import schweika.chatapplication.Repositories.Services.TokenService;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
+import schweika.chatapplication.Repositories.Services.NetworkConfig;
 import schweika.chatapplication.Repositories.Services.UserService;
 
 /**
@@ -34,7 +33,7 @@ public class FutureUserRepository
             .create();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(UserService.ENDPOINT)
+            .baseUrl(NetworkConfig.ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 

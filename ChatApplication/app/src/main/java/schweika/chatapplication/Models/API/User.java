@@ -1,4 +1,4 @@
-package schweika.chatapplication.Models;
+package schweika.chatapplication.Models.API;
 //import com.google.gson.annotations.SerializedName;
 
 import android.databinding.BaseObservable;

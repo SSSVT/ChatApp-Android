@@ -1,6 +1,6 @@
 package schweika.chatapplication;
 
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.User;
 
 public class UserValidator
 {

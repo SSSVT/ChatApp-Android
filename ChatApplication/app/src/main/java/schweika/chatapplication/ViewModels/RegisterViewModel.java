@@ -1,5 +1,6 @@
 package schweika.chatapplication.ViewModels;
 
+import android.arch.lifecycle.ViewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
@@ -9,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.UserValidator;
 import schweika.chatapplication.Repositories.AuthenticationRepository;
 import schweika.chatapplication.Views.Register.RegisterListener;

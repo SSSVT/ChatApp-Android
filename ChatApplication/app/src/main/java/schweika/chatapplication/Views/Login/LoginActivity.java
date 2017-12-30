@@ -1,5 +1,6 @@
 package schweika.chatapplication.Views.Login;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,20 +8,20 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.Repositories.TokenSingleton;
 import schweika.chatapplication.Repositories.UsersRepository;
 import schweika.chatapplication.ViewModels.LoginViewModel;
-import schweika.chatapplication.Views.LoggedIn.LoggedInActivity;
+import schweika.chatapplication.ViewModels.LoginViewModelWrapper;
+import schweika.chatapplication.Views.Home.HomeActivity;
 import schweika.chatapplication.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity implements LoginViewModelListener
@@ -33,9 +34,16 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
 
-        binding.setViewModel(new LoginViewModel(this));
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        LoginViewModelWrapper viewModelWrapper = ViewModelProviders.of(this).get(LoginViewModelWrapper.class);
+
+        if (viewModelWrapper.viewModel == null)
+        {
+            viewModelWrapper.viewModel = new LoginViewModel(this);
+        }
+
+        binding.setViewModel(viewModelWrapper.viewModel);
     }
 
     @Override
@@ -50,13 +58,15 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
 
         TokenSingleton.getInstance().setToken(token);
 
+        //TODO: do this in view model
+
         new UsersRepository(token).getCurrentUser(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response<User> response)
             {
                 TokenSingleton.getInstance().setUser(response.body());
-                openLoggedInActivity();
+                openHomeActivity();
             }
 
             @Override
@@ -67,9 +77,9 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         });
     }
 
-    private void openLoggedInActivity()
+    private void openHomeActivity()
     {
-        Intent intent = new Intent(this, LoggedInActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 

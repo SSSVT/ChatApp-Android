@@ -28,13 +28,18 @@
         <activity android:name=".Views.Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Views.RecyclerView.RecyclerViewActivity" />
+        <activity android:name=".Views.RecyclerView.RecyclerViewActivity" />
         <activity
             android:name=".Views.LoggedIn.LoggedInActivity"
             android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name=".Views.Home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppThemeNoActionBar" />
     </application>
+
 </manifest>

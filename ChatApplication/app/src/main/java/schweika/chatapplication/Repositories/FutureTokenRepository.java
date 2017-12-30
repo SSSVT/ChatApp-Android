@@ -8,13 +8,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.Models.UserCredentials;
+import schweika.chatapplication.Repositories.Services.NetworkConfig;
 import schweika.chatapplication.Repositories.Services.TokenService;
 
 /**
@@ -27,7 +27,7 @@ public class FutureTokenRepository
             .create();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(TokenService.ENDPOINT)
+            .baseUrl(NetworkConfig.ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 

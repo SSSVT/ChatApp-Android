@@ -7,17 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.Repositories.TokenSingleton;
 import schweika.chatapplication.Repositories.UsersRepository;
-import schweika.chatapplication.Views.LoggedIn.LoggedInActivity;
+import schweika.chatapplication.Views.Home.HomeActivity;
 import schweika.chatapplication.Views.LoggedOff.LoggedOffActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity
                     if (response.isSuccessful())
                     {
                         tokenSingleton.setUser(response.body());
-                        startLoggedInActivity();
+                        startHomeActivity();
                     }
                     else
                     {
@@ -90,9 +89,9 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void startLoggedInActivity()
+    private void startHomeActivity()
     {
-        Intent intent = new Intent(this, LoggedInActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }

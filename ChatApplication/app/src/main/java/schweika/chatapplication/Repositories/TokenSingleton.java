@@ -1,7 +1,7 @@
 package schweika.chatapplication.Repositories;
 
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
 
 public class TokenSingleton
 {

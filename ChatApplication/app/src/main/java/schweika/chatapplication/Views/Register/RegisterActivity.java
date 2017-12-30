@@ -1,5 +1,6 @@
 package schweika.chatapplication.Views.Register;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 
@@ -7,12 +8,12 @@ import android.os.Bundle;
 
 import schweika.chatapplication.R;
 import schweika.chatapplication.ViewModels.RegisterViewModel;
+import schweika.chatapplication.ViewModels.RegisterViewModelWrapper;
 import schweika.chatapplication.databinding.ActivityRegisterBinding;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterListener
 {
     ActivityRegisterBinding binding;
-    RegisterViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,9 +23,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterListe
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewModel = new RegisterViewModel(this);
+        RegisterViewModelWrapper viewModelWrapper = ViewModelProviders.of(this).get(RegisterViewModelWrapper.class);
 
-        binding.setViewModel(viewModel);
+        if (viewModelWrapper.viewModel == null)
+        {
+            viewModelWrapper.viewModel = new RegisterViewModel(this);
+        }
+
+        binding.setViewModel(viewModelWrapper.viewModel);
     }
 
     @Override

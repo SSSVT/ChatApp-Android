@@ -9,8 +9,9 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import schweika.chatapplication.DateDeserializer;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.Models.User;
+import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.API.User;
+import schweika.chatapplication.Repositories.Services.NetworkConfig;
 import schweika.chatapplication.Repositories.Services.UserService;
 
 public class UsersRepository
@@ -22,7 +23,7 @@ public class UsersRepository
             .create();
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(UserService.ENDPOINT)
+            .baseUrl(NetworkConfig.ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 

@@ -3,13 +3,11 @@ package schweika.chatapplication.ViewModels;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import java.util.concurrent.Future;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.UserCredentials;
 import schweika.chatapplication.Repositories.FutureTokenRepository;
 import schweika.chatapplication.Repositories.AuthenticationRepository;
