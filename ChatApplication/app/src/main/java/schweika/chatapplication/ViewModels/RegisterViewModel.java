@@ -64,7 +64,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setEmail(String email)
     {
-        user.setEmail(email);
+        user.email = email;
         notifyPropertyChanged(BR.email);
         notifyPropertyChanged(BR.emailError);
     }
@@ -72,7 +72,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getEmail()
     {
-        return user.getEmail();
+        return user.email;
     }
 
     @Bindable
@@ -83,7 +83,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setUsername(String username)
     {
-        user.setUsername(username);
+        user.username = username;
 
         if (validator.isUsernameValid())
         {
@@ -98,7 +98,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getUsername()
     {
-        return user.getUsername();
+        return user.username;
     }
 
     @Bindable
@@ -148,7 +148,7 @@ public class RegisterViewModel extends BaseObservable
         {
         }*/
 
-        repository.isUsernameAvailable(user.getUsername(), new Callback<Boolean>()
+        repository.isUsernameAvailable(user.username, new Callback<Boolean>()
         {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response)
@@ -190,7 +190,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setPassword(String password)
     {
-        user.setPassword(password);
+        user.password = password;
         notifyPropertyChanged(BR.password);
         notifyPropertyChanged(BR.passwordError);
     }
@@ -198,7 +198,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getPassword()
     {
-        return user.getPassword();
+        return user.password;
     }
 
     @Bindable
@@ -209,7 +209,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setFirstName(String firstName)
     {
-        this.user.setFirstName(firstName);
+        this.user.firstName = firstName;
         notifyPropertyChanged(BR.firstName);
         notifyPropertyChanged(BR.firstNameError);
     }
@@ -218,7 +218,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getFirstName()
     {
-        return user.getFirstName();
+        return user.firstName;
     }
 
     @Bindable
@@ -229,7 +229,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setMiddleName(String middleName)
     {
-        user.setMiddleName(middleName);
+        user.middleName = middleName;
         notifyPropertyChanged(BR.middleName);
         notifyPropertyChanged(BR.middleNameError);
     }
@@ -237,7 +237,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getMiddleName()
     {
-        return user.getMiddleName();
+        return user.middleName;
     }
 
     @Bindable
@@ -249,7 +249,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void setLastName(String lastName)
     {
-        user.setLastName(lastName);
+        user.lastName = lastName;
         notifyPropertyChanged(BR.lastName);
         notifyPropertyChanged(BR.lastNameError);
     }
@@ -257,7 +257,7 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public String getLastName()
     {
-        return user.getLastName();
+        return user.lastName;
     }
 
     @Bindable
@@ -268,12 +268,12 @@ public class RegisterViewModel extends BaseObservable
 
     public void setGenderFemale()
     {
-        user.setGender('F');
+        user.gender = 'F';
     }
 
     public void setGenderMale()
     {
-        user.setGender('M');
+        user.gender = 'M';
     }
 
     public void setBirthDay(int day)
@@ -314,7 +314,7 @@ public class RegisterViewModel extends BaseObservable
 
     public void onRegisterClicked()
     {
-        user.setBirthDate(userBirthDate.getTime());
+        user.birthDate = userBirthDate.getTime();
 
         if (validator.isUserValid())
         {

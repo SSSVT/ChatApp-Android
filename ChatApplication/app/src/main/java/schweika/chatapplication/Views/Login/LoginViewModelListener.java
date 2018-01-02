@@ -1,6 +1,6 @@
 package schweika.chatapplication.Views.Login;
 
-import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.Token;
 
 /**
  * Created by patri on 22.12.2017.

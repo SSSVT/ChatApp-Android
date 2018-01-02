@@ -1,4 +1,4 @@
-package schweika.chatapplication.Models.API;
+package schweika.chatapplication.Models;
 
 public class Token
 {

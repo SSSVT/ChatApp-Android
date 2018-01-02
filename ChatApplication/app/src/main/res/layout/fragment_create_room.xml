@@ -1,0 +1,43 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="schweika.chatapplication.Views.Home.Fragments.CreateRoomFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="schweika.chatapplication.ViewModels.CreateRoomViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText_roomName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.room.name}"/>
+
+        <EditText
+            android:id="@+id/editText_roomDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.room.description}"/>
+
+        <Button
+            android:id="@+id/button_roomCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create"
+            android:onClick="@{() -> viewModel.create()}"/>
+    </LinearLayout>
+
+</layout>

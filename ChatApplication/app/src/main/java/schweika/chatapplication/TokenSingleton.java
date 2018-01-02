@@ -1,6 +1,6 @@
-package schweika.chatapplication.Repositories;
+package schweika.chatapplication;
 
-import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
 
 public class TokenSingleton

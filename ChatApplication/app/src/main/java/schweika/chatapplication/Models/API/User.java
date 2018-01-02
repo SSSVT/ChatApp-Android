@@ -4,6 +4,7 @@ package schweika.chatapplication.Models.API;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDate;
@@ -13,27 +14,27 @@ import java.util.Date;
 public class User
 {
     @SerializedName("id")
-    private long id;
+    public long id;
     @SerializedName("firstName")
-    private String firstName;
+    public String firstName;
     @SerializedName("middleName")
-    private String middleName;
+    public String middleName;
     @SerializedName("lastName")
-    private String lastName;
+    public String lastName;
     @SerializedName("birthdate")
     //private Calendar birthDate;
-    private Date birthDate;
+    public Date birthDate;
 
     @SerializedName("gender")
-    private char gender;
+    public char gender;
     @SerializedName("email")
-    private String email;
+    public String email;
     @SerializedName("username")
-    private String username;
+    public String username;
     @SerializedName("password")
-    private String password;
+    public String password;
 
-    public String getFirstName()
+    /*public String getFirstName()
     {
         return firstName;
     }
@@ -62,16 +63,6 @@ public class User
     {
         this.lastName = lastName;
     }
-
-    /*public Calendar getBirthDate()
-    {
-        return birthDate;
-    }/*
-
-    /*public void setBirthDate(Calendar birthDate)
-    {
-        this.birthDate = birthDate;
-    }*/
 
     public Date getBirthDate()
     {
@@ -122,5 +113,5 @@ public class User
     public void setPassword(String password)
     {
         this.password = password;
-    }
+    }*/
 }

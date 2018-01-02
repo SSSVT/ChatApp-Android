@@ -15,16 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Views.LoggedOff.LoggedOffActivity"
-            android:label="Chat application" />
-        <activity
-            android:name=".Views.Login.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
+            android:name=".Views.Login.LoginActivity" />
         <activity
             android:name=".Views.Register.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".Views.LoggedOff.LoggedOffActivity" />
+            android:parentActivityName=".Views.Login.LoginActivity" />
         <activity android:name=".Views.Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,9 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.RecyclerView.RecyclerViewActivity" />
-        <activity
-            android:name=".Views.LoggedIn.LoggedInActivity"
-            android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".Views.Home.HomeActivity"
             android:label="@string/title_activity_home"

@@ -26,12 +26,12 @@ public class UserViewModel extends BaseObservable
     @Bindable
     public String getUsername()
     {
-        return user.getUsername();
+        return user.username;
     }
 
     @Bindable
     public String getEmail()
     {
-        return user.getEmail();
+        return user.email;
     }
 }

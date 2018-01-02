@@ -1,0 +1,34 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="schweika.chatapplication.Views.Home.Fragments.CreateRoomFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="schweika.chatapplication.ViewModels.AddFriendViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editText_friendUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.username}" />
+
+        <Button
+            android:id="@+id/button_friendAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.add()}"
+            android:text="Add" />
+    </LinearLayout>
+
+</layout>

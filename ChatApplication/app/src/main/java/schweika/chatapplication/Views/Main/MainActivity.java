@@ -11,13 +11,13 @@ import com.google.gson.Gson;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
-import schweika.chatapplication.Repositories.TokenSingleton;
-import schweika.chatapplication.Repositories.UsersRepository;
+import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.Repositories.UserRepository;
 import schweika.chatapplication.Views.Home.HomeActivity;
-import schweika.chatapplication.Views.LoggedOff.LoggedOffActivity;
+import schweika.chatapplication.Views.Login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -34,19 +34,13 @@ public class MainActivity extends AppCompatActivity
 
         if (jwt == "")
         {
-            startLoggedOffActivity();
+            startLoginActivity();
         }
         else
         {
-            //TODO: try login with token
-
             Token token = new Gson().fromJson(jwt,Token.class);
 
-            TokenSingleton tokenSingleton = TokenSingleton.getInstance();
-
-            tokenSingleton.setToken(token);
-
-            UsersRepository repository = new UsersRepository(token);
+            UserRepository repository = new UserRepository(token);
 
             repository.getCurrentUser(new Callback<User>()
             {
@@ -55,21 +49,23 @@ public class MainActivity extends AppCompatActivity
                 {
                     if (response.isSuccessful())
                     {
+                        TokenSingleton tokenSingleton = TokenSingleton.getInstance();
+
+                        tokenSingleton.setToken(token);
                         tokenSingleton.setUser(response.body());
                         startHomeActivity();
                     }
                     else
                     {
-                        tokenSingleton.setToken(null);
                         deleteToken();
-                        startLoggedOffActivity();
+                        startLoginActivity();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<User> call, Throwable t)
                 {
-                    startLoggedOffActivity();
+                    startLoginActivity();
                 }
             });
         }
@@ -83,9 +79,9 @@ public class MainActivity extends AppCompatActivity
         editor.apply();
     }
 
-    private void startLoggedOffActivity()
+    private void startLoginActivity()
     {
-        Intent intent = new Intent(this, LoggedOffActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

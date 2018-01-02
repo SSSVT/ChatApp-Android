@@ -30,21 +30,25 @@ public class UserValidator
 
     public boolean isUsernameValid()
     {
-        if (user.getUsername() == null)
+        if (user.username == null)
             return false;
-        else if (user.getUsername().equals(""))
+        else if (user.username.equals(""))
             return  false;
+        else if (user.username.length() < 4)
+            return false;
+        else if (!isUsernameAvailable)
+            return false;
 
         return true;
     }
 
     public String getUsernameError()
     {
-        if (user.getUsername() == null)
+        if (user.username == null)
             return null;
-        else if (user.getUsername().equals(""))
+        else if (user.username.equals(""))
             return "You must enter a username.";
-        else if (user.getUsername().length() < 4)
+        else if (user.username.length() < 4)
             return "You must enter a username with at least 4 characters";
         else if (!isUsernameAvailable)
             return "Username is not available.";
@@ -54,9 +58,9 @@ public class UserValidator
 
     public boolean isEmailValid()
     {
-        if (user.getEmail() == null)
+        if (user.email == null)
             return false;
-        else if (user.getEmail().equals(""))
+        else if (user.email.equals(""))
             return  false;
 
         return true;
@@ -64,9 +68,9 @@ public class UserValidator
 
     public String getEmailError()
     {
-        if (user.getEmail() == null)
+        if (user.email == null)
             return null;
-        else if (user.getEmail().equals(""))
+        else if (user.email.equals(""))
             return "You must enter an email.";
 
         return null;
@@ -74,11 +78,11 @@ public class UserValidator
 
     public boolean isPasswordValid()
     {
-        if (user.getPassword() == null)
+        if (user.password == null)
             return false;
-        else if (user.getPassword().equals(""))
+        else if (user.password.equals(""))
             return  false;
-        else if (user.getPassword().length() < 8)
+        else if (user.password.length() < 8)
             return false;
 
         return true;
@@ -86,11 +90,11 @@ public class UserValidator
 
     public String getPasswordError()
     {
-        if (user.getPassword() == null)
+        if (user.password == null)
             return null;
-        else if (user.getPassword().equals(""))
+        else if (user.password.equals(""))
             return "You must enter a password.";
-        else if (user.getPassword().length() < 8)
+        else if (user.password.length() < 8)
             return "Password must have at least 8 characters.";
 
         return null;
@@ -98,9 +102,9 @@ public class UserValidator
 
     public boolean isFirstNameValid()
     {
-        if (user.getFirstName() == null)
+        if (user.firstName == null)
             return false;
-        else if (user.getFirstName().equals(""))
+        else if (user.firstName.equals(""))
             return  false;
 
         return true;
@@ -108,9 +112,9 @@ public class UserValidator
 
     public String getFirstNameError()
     {
-        if (user.getFirstName() == null)
+        if (user.firstName == null)
             return null;
-        else if (user.getFirstName().equals(""))
+        else if (user.firstName.equals(""))
             return "You must enter a first name.";
 
         return null;
@@ -132,9 +136,9 @@ public class UserValidator
 
     public boolean isLastNameValid()
     {
-        if (user.getLastName() == null)
+        if (user.lastName == null)
             return false;
-        else if (user.getLastName().equals(""))
+        else if (user.lastName.equals(""))
             return  false;
 
         return true;
@@ -142,9 +146,9 @@ public class UserValidator
 
     public String getLastNameError()
     {
-        if (user.getLastName() == null)
+        if (user.lastName == null)
             return null;
-        else if (user.getLastName().equals(""))
+        else if (user.lastName.equals(""))
             return "You must enter a first name.";
 
         return null;
@@ -152,7 +156,7 @@ public class UserValidator
 
     public boolean isBirthDateValid()
     {
-        if (user.getBirthDate() == null)
+        if (user.birthDate == null)
             return false;
 
         return true;
@@ -167,7 +171,7 @@ public class UserValidator
 
     public boolean isGenderValid()
     {
-        if (user.getGender() == 'M' || user.getGender() == 'F')
+        if (user.gender == 'M' || user.gender == 'F')
             return true;
 
         return false;
@@ -175,7 +179,7 @@ public class UserValidator
 
     public String getGenderError()
     {
-        if (user.getGender() != 'M' || user.getGender() != 'F')
+        if (user.gender != 'M' && user.gender != 'F')
             return "You must select a gender.";
 
         return null;
@@ -189,34 +193,6 @@ public class UserValidator
             return false;
         if (!isPasswordValid())
             return false;
-        if (!isFirstNameValid())
-            return false;
-        if (!isMiddleNameValid())
-            return false;
-        if (!isLastNameValid())
-            return false;
-        if (!isGenderValid())
-            return false;
-        if (!isBirthDateValid())
-            return false;
-
-        return true;
-    }
-
-    public boolean isCredentialsValid()
-    {
-        if (!isUsernameValid())
-            return false;
-        if (!isEmailValid())
-            return false;
-        if (!isPasswordValid())
-            return false;
-
-        return true;
-    }
-
-    public boolean isDetailsValid()
-    {
         if (!isFirstNameValid())
             return false;
         if (!isMiddleNameValid())

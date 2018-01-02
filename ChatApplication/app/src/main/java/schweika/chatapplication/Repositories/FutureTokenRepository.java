@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.Models.UserCredentials;
 import schweika.chatapplication.Repositories.Services.NetworkConfig;

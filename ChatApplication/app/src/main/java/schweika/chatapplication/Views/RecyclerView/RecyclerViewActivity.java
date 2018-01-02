@@ -41,19 +41,10 @@ public class RecyclerViewActivity extends AppCompatActivity
         ArrayList<UserViewModel> data = new ArrayList<>();
 
         User user = new User();
-        user.setUsername("test");
-        user.setEmail("test@test.cz");
+        user.username = "test";
+        user.email = "test@test.cz";
         data.add(new UserViewModel(user));
 
-        User user2 = new User();
-        user2.setUsername("pepa");
-        user2.setEmail("pepa@pepa.cz");
-        data.add(new UserViewModel(user2));
-
-        User user3 = new User();
-        user3.setUsername("patrik");
-        user3.setEmail("patrik@pepa.cz");
-        data.add(new UserViewModel(user3));
 
         return data;
     }

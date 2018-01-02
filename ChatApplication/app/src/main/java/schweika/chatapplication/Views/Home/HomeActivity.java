@@ -1,24 +1,28 @@
 package schweika.chatapplication.Views.Home;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import schweika.chatapplication.R;
+import schweika.chatapplication.ViewModels.HomeViewModel;
 import schweika.chatapplication.Views.Home.Fragments.FriendsFragment;
 import schweika.chatapplication.Views.Home.Fragments.RoomsFragment;
-import schweika.chatapplication.Views.LoggedOff.LoggedOffActivity;
+import schweika.chatapplication.Views.Login.LoginActivity;
 
 public class HomeActivity extends AppCompatActivity
 {
+    private RoomsFragment roomsFragment = new RoomsFragment();
+    private FriendsFragment friendsFragment = new FriendsFragment();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -44,14 +48,38 @@ public class HomeActivity extends AppCompatActivity
 
     private void switchToRoomsFragment()
     {
+
+
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.fragment_content, new RoomsFragment()).commit();
+
+        //CreateRoomFragment fragment = (CreateRoomFragment) manager.findFragmentByTag("createRoom");
+
+        Fragment fragment = manager.findFragmentByTag("rooms");
+
+        if (fragment == null)
+        {
+            manager.beginTransaction().replace(R.id.fragment_content, roomsFragment,"rooms").commit();
+        }
+        else
+        {
+            manager.beginTransaction().replace(R.id.fragment_content, fragment, "rooms").commit();
+        }
     }
 
     private void switchToFriendsFragment()
     {
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.fragment_content, new FriendsFragment()).commit();
+
+        Fragment fragment = manager.findFragmentByTag("friends");
+
+        if (fragment == null)
+        {
+            manager.beginTransaction().replace(R.id.fragment_content, friendsFragment,"friends").commit();
+        }
+        else
+        {
+            manager.beginTransaction().replace(R.id.fragment_content, fragment, "friends").commit();
+        }
     }
 
     @Override
@@ -59,6 +87,8 @@ public class HomeActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        HomeViewModel viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -73,7 +103,8 @@ public class HomeActivity extends AppCompatActivity
         editor.remove("JWT");
         editor.apply();
 
-        Intent intent = new Intent(this, LoggedOffActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
+
         startActivity(intent);
 
         finish();
@@ -82,7 +113,15 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        finishAffinity();
-    }
+        FragmentManager manager = getSupportFragmentManager();
 
+        if (manager.getBackStackEntryCount() > 0)
+        {
+            manager.popBackStack();
+        }
+        else
+        {
+            finishAffinity();
+        }
+    }
 }

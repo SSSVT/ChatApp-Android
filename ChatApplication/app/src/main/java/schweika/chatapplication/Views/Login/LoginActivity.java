@@ -8,25 +8,28 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.API.Token;
+import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
-import schweika.chatapplication.Repositories.TokenSingleton;
-import schweika.chatapplication.Repositories.UsersRepository;
+import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.Repositories.UserRepository;
 import schweika.chatapplication.ViewModels.LoginViewModel;
 import schweika.chatapplication.ViewModels.LoginViewModelWrapper;
 import schweika.chatapplication.Views.Home.HomeActivity;
+import schweika.chatapplication.Views.Register.RegisterActivity;
 import schweika.chatapplication.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity implements LoginViewModelListener
 {
     ActivityLoginBinding binding;
+    LoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,14 +37,14 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         LoginViewModelWrapper viewModelWrapper = ViewModelProviders.of(this).get(LoginViewModelWrapper.class);
 
         if (viewModelWrapper.viewModel == null)
         {
             viewModelWrapper.viewModel = new LoginViewModel(this);
         }
+
+        viewModel = viewModelWrapper.viewModel;
 
         binding.setViewModel(viewModelWrapper.viewModel);
     }
@@ -60,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
 
         //TODO: do this in view model
 
-        new UsersRepository(token).getCurrentUser(new Callback<User>()
+        new UserRepository(token).getCurrentUser(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response<User> response)
@@ -83,9 +86,25 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         startActivity(intent);
     }
 
+    /*public void onLoginClick(View view)
+    {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        viewModel.onLoginClick();
+    }*/
+
+    public void onRegisterClick(View view)
+    {
+        Intent intent = new Intent(this,RegisterActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onLoginFailure()
     {
+        //TODO: Show something
     }
 }
 
