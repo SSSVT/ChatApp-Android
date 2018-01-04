@@ -1,13 +1,11 @@
 package schweika.chatapplication.Repositories;
 
+import java.util.List;
+
 import retrofit2.Callback;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Repositories.Services.FriendshipService;
-
-/**
- * Created by patri on 02.01.2018.
- */
 
 public class FriendshipRepository extends SecuredRepository
 {
@@ -21,5 +19,10 @@ public class FriendshipRepository extends SecuredRepository
     public void sendFriendship(Friendship friendship, Callback<Friendship> callback)
     {
         client.createFriendship(getTokenHeader(),friendship).enqueue(callback);
+    }
+
+    public void findByUserID(long id, Callback<List<Friendship>> callback)
+    {
+        client.findByUserID(getTokenHeader(),id).enqueue(callback);
     }
 }

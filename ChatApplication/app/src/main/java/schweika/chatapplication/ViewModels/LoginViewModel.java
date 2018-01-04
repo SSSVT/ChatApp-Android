@@ -3,20 +3,26 @@ package schweika.chatapplication.ViewModels;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.UserCredentials;
-import schweika.chatapplication.Repositories.FutureTokenRepository;
 import schweika.chatapplication.Repositories.AuthenticationRepository;
+import schweika.chatapplication.Repositories.RXAuthenticationRepository;
 import schweika.chatapplication.Views.Login.LoginViewModelListener;
 
 public class LoginViewModel extends BaseObservable
 {
     private AuthenticationRepository userRepository = new AuthenticationRepository();
-    private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
+    private RXAuthenticationRepository rxAuthenticationRepository = new RXAuthenticationRepository();
     private UserCredentials userCredentials;
     private LoginViewModelListener listener;
     private boolean processingState;
@@ -97,7 +103,17 @@ public class LoginViewModel extends BaseObservable
 
         setProcessingState(false);*/
 
-        userRepository.login(userCredentials, new Callback<Token>()
+        rxAuthenticationRepository.login(userCredentials)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(() -> setProcessingState(false))
+                .subscribe(listener::onLoginSuccess,
+                        throwable ->
+                        {
+                            listener.onLoginFailure();
+                        });
+
+        /*userRepository.login(userCredentials, new Callback<Token>()
         {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response)
@@ -120,6 +136,6 @@ public class LoginViewModel extends BaseObservable
                 setProcessingState(false);
                 listener.onLoginFailure();
             }
-        });
+        });*/
     }
 }

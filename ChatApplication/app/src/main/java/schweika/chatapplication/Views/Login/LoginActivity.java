@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,6 +21,7 @@ import retrofit2.Response;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
+import schweika.chatapplication.DateDeserializer;
 import schweika.chatapplication.TokenSingleton;
 import schweika.chatapplication.Repositories.UserRepository;
 import schweika.chatapplication.ViewModels.LoginViewModel;
@@ -47,6 +51,31 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         viewModel = viewModelWrapper.viewModel;
 
         binding.setViewModel(viewModelWrapper.viewModel);
+
+        //tryDateParse();
+    }
+
+    private void tryDateParse()
+    {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .create();
+
+        //DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        String stringDate = "\"date\":\"1990-08-20T00:00:00\"";
+
+        Date date = gson.fromJson(stringDate,Date.class);
+
+        /*try
+        {
+            Date date = format.parse(stringDate);
+            Log.i("Date",date.toString());
+        }
+        catch (Exception e)
+        {
+            Log.e("PARSE ERROR","COULDNT PARSE");
+        }*/
     }
 
     @Override

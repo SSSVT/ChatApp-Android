@@ -1,17 +1,8 @@
 package schweika.chatapplication.Repositories;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.Date;
-
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import schweika.chatapplication.DateDeserializer;
 import schweika.chatapplication.Models.Token;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Repositories.Services.NetworkConfig;
 import schweika.chatapplication.Repositories.Services.UserService;
 
 public class UserRepository extends SecuredRepository
@@ -31,5 +22,10 @@ public class UserRepository extends SecuredRepository
     public void findByUsername(String username, Callback<User> callback)
     {
         client.findByUsername(getTokenHeader(),username).enqueue(callback);
+    }
+
+    public void findByID(long id, Callback<User> callback)
+    {
+        client.findByID(getTokenHeader(),id).enqueue(callback);
     }
 }

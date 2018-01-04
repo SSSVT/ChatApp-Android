@@ -1,5 +1,7 @@
 package schweika.chatapplication.RecyclerView.Adapters;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,48 +9,44 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import schweika.chatapplication.Models.API.Room;
+import schweika.chatapplication.RecyclerView.ViewHolders.DataBindingViewHolder;
 import schweika.chatapplication.RecyclerView.ViewHolders.RoomViewHolder;
 import schweika.chatapplication.databinding.RecyclerViewRoomBinding;
 
-public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomViewHolder>
+public abstract class RecyclerViewAdapter<T,V extends ViewDataBinding> extends RecyclerView.Adapter<DataBindingViewHolder>
 {
-    private ArrayList<Room> models;
+    /*private ArrayList<T> models;
     private LayoutInflater inflater;
 
-    public RoomRecyclerViewAdapter(ArrayList<Room> models)
+    public RecyclerViewAdapter(ArrayList<T> models)
     {
         this.models = models;
     }
 
     @Override
-    public RoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public DataBindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         if (inflater == null)
         {
             inflater = LayoutInflater.from(parent.getContext());
         }
-
-        RecyclerViewRoomBinding binding = RecyclerViewRoomBinding.inflate(inflater,parent,false);
-        return new RoomViewHolder(binding);
     }
 
-    public void setModels(ArrayList<Room> models)
+    public void setModels(ArrayList<T> models)
     {
         this.models = models;
     }
 
     @Override
-    public void onBindViewHolder(RoomViewHolder holder, int position)
+    public void onBindViewHolder(DataBindingViewHolder holder, int position)
     {
-        Room model = models.get(position);
+        T model = models.get(position);
         holder.bind(model);
-
-        //final RecyclerViewUserBinding binding = holder.getDataBinding();
     }
 
     @Override
     public int getItemCount()
     {
         return models.size();
-    }
+    }*/
 }

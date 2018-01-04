@@ -13,4 +13,7 @@ public interface UserService
 
     @GET("Users/FindByUsername")
     Call<User> findByUsername(@Header("Authorization") String token,@Query("id") String username);
+
+    @GET("Users/Detail")
+    Call<User> findByID(@Header("Authorization") String token,@Query("id") long id);
 }

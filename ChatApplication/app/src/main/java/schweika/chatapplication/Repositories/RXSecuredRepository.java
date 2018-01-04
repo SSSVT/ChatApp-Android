@@ -2,11 +2,11 @@ package schweika.chatapplication.Repositories;
 
 import schweika.chatapplication.Models.Token;
 
-public abstract class SecuredRepository extends Repository
+public abstract class RXSecuredRepository extends RXRepository
 {
     protected Token token;
 
-    public SecuredRepository(Token token)
+    public RXSecuredRepository(Token token)
     {
         this.token = token;
     }

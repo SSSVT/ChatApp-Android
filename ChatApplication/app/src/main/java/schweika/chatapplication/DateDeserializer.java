@@ -1,14 +1,18 @@
 package schweika.chatapplication;
 
+import android.util.Log;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateDeserializer implements JsonDeserializer<Date>
@@ -16,23 +20,19 @@ public class DateDeserializer implements JsonDeserializer<Date>
     @Override
     public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
     {
-        String stringjson = json.getAsString();
+        String stringDate = json.getAsString();
 
-        return null;
-
-
-        /*String date = json.getAsString().substring(0,10);
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         try
         {
-            return format.parse(date);
+            return format.parse(stringDate);
         }
-        catch (ParseException exp)
+        catch (ParseException e)
         {
-            throw new JsonParseException(exp);
-        }*/
+            Log.e("PARSE ERROR","COULDNT PARSE");
+            return null;
+        }
     }
 }

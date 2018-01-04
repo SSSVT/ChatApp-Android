@@ -18,13 +18,15 @@ import java.util.ArrayList;
 
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.R;
+import schweika.chatapplication.RecyclerView.Adapters.GenericRecyclerViewAdapter;
 import schweika.chatapplication.RecyclerView.Adapters.RoomRecyclerViewAdapter;
 import schweika.chatapplication.ViewModels.HomeViewModel;
 
 public class RoomsFragment extends Fragment
 {
     private RecyclerView recyclerView;
-    private RoomRecyclerViewAdapter adapter;
+    //private RoomRecyclerViewAdapter adapter;
+    private GenericRecyclerViewAdapter<Room> adapter;
     private HomeViewModel viewModelWrapper;
 
     public RoomsFragment()
@@ -39,15 +41,14 @@ public class RoomsFragment extends Fragment
 
         viewModelWrapper = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-        adapter = new RoomRecyclerViewAdapter(viewModelWrapper.rooms.getValue());
+        adapter = new GenericRecyclerViewAdapter<>(viewModelWrapper.rooms.getValue(),R.layout.recycler_view_room);
 
         viewModelWrapper.rooms.observe(this, new Observer<ArrayList<Room>>()
         {
             @Override
             public void onChanged(@Nullable ArrayList<Room> rooms)
             {
-                adapter.setModels(rooms);
-                adapter.notifyDataSetChanged();
+                adapter.setList(rooms);
             }
         });
     }
@@ -70,7 +71,9 @@ public class RoomsFragment extends Fragment
 
         viewModelWrapper.updateRooms();
 
-        recyclerView = view.findViewById(R.id.recyclerView_rooms);
+        if (recyclerView == null)
+            recyclerView = view.findViewById(R.id.recyclerView_rooms);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));

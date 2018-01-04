@@ -11,7 +11,10 @@ public class Friendship
     public UUID id;
     public long idSender;
     public long idRecipient;
-    public Date send;
+    @SerializedName("utcServerReceived")
+    public Date serverReceived;
+    @SerializedName("utcAccepted")
+    public Date accepted;
 
     //public User sender;
     //public User recipient;

@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 
+import java.util.TimeZone;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
         SharedPreferences sharedPreferences = getSharedPreferences("login",Context.MODE_PRIVATE);
 

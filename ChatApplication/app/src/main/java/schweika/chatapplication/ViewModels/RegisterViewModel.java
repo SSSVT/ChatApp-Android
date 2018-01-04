@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +35,12 @@ public class RegisterViewModel extends BaseObservable
         this.user = new User();
 
         validator = new UserValidator(user);
+
+        userBirthDate.setTimeZone(TimeZone.getTimeZone("UTC"));
+        userBirthDate.set(Calendar.HOUR,0);
+        userBirthDate.set(Calendar.MINUTE,0);
+        userBirthDate.set(Calendar.SECOND,0);
+        userBirthDate.set(Calendar.MILLISECOND,0);
     }
 
     public RegisterViewModel(RegisterListener listener, User user)
