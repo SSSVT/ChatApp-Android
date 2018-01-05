@@ -1,17 +1,13 @@
 package schweika.chatapplication.Repositories;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 
 import java.util.List;
 import java.util.UUID;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import schweika.chatapplication.Models.API.Friendship;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.Services.RXFriendshipService;
 
 public class RXFriendshipRepository extends RXSecuredRepository

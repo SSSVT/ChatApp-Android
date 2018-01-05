@@ -7,18 +7,8 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
 
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.SingleObserver;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,29 +16,22 @@ import retrofit2.Response;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Models.Token;
-import schweika.chatapplication.RecyclerView.Adapters.FriendRecyclerViewAdapter;
-import schweika.chatapplication.RecyclerView.ViewModels.FriendViewModel;
-import schweika.chatapplication.Repositories.FriendshipRepository;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
 import schweika.chatapplication.Repositories.RXUserRepository;
 import schweika.chatapplication.Repositories.RoomRepository;
 import schweika.chatapplication.TokenSingleton;
-import schweika.chatapplication.Repositories.UserRepository;
 
 public class HomeViewModel extends ViewModel
 {
 
     public MutableLiveData<ArrayList<Room>> rooms = new MutableLiveData<>();
-    //public MutableLiveData<ArrayList<FriendViewModel>> friends = new MutableLiveData<>();
     public MutableLiveData<HashMap<Friendship,User>> friends = new MutableLiveData<>();
 
     private Token token = TokenSingleton.getInstance().getToken();
     public User currentUser = TokenSingleton.getInstance().getUser();
 
     private RoomRepository roomRepository = new RoomRepository(token);
-    //private UserRepository userRepository = new UserRepository(token);
-    //private FriendshipRepository friendshipRepository = new FriendshipRepository(token);
     private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(token);
     private RXUserRepository rxUserRepository = new RXUserRepository(token);
 
@@ -59,6 +42,11 @@ public class HomeViewModel extends ViewModel
 
         updateRooms();
         updateFriends();
+    }
+
+    public String getUsername()
+    {
+        return (currentUser.username.substring(0, 1).toUpperCase() + currentUser.username.substring(1));
     }
 
     public void updateRooms()

@@ -3,4 +3,5 @@
     <color name="colorPrimary">#3176B7</color>
     <color name="colorPrimaryDark">#353333</color>
     <color name="colorAccent">#3176B7</color>
+    <color name="toolbarTextColor">#ffffff</color>
 </resources>

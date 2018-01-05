@@ -13,7 +13,7 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.TokenSingleton;

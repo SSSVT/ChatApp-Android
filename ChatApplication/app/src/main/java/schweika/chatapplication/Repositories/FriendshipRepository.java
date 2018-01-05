@@ -4,7 +4,7 @@ import java.util.List;
 
 import retrofit2.Callback;
 import schweika.chatapplication.Models.API.Friendship;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.Services.FriendshipService;
 
 public class FriendshipRepository extends SecuredRepository

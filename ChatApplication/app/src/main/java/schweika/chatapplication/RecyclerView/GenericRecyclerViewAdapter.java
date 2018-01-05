@@ -1,4 +1,4 @@
-package schweika.chatapplication.RecyclerView.Adapters;
+package schweika.chatapplication.RecyclerView;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;

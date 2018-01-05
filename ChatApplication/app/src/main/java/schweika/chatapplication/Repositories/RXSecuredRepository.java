@@ -1,6 +1,6 @@
 package schweika.chatapplication.Repositories;
 
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 
 public abstract class RXSecuredRepository extends RXRepository
 {

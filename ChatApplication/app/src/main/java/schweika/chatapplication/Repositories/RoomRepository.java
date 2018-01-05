@@ -5,7 +5,7 @@ import java.util.List;
 import retrofit2.Callback;
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.Services.RoomService;
 
 public class RoomRepository extends SecuredRepository

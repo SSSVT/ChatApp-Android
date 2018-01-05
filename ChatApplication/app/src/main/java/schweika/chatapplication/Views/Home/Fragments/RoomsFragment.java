@@ -18,8 +18,7 @@ import java.util.ArrayList;
 
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.R;
-import schweika.chatapplication.RecyclerView.Adapters.GenericRecyclerViewAdapter;
-import schweika.chatapplication.RecyclerView.Adapters.RoomRecyclerViewAdapter;
+import schweika.chatapplication.RecyclerView.GenericRecyclerViewAdapter;
 import schweika.chatapplication.ViewModels.HomeViewModel;
 
 public class RoomsFragment extends Fragment
@@ -87,11 +86,5 @@ public class RoomsFragment extends Fragment
         FragmentManager manager = getActivity().getSupportFragmentManager();
 
         manager.beginTransaction().replace(R.id.fragment_content,new CreateRoomFragment(),"rooms").addToBackStack("rooms").commit();
-    }
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        viewModelWrapper.updateRooms();
     }
 }

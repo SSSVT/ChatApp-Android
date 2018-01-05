@@ -1,12 +1,10 @@
 package schweika.chatapplication.Repositories;
 
 import io.reactivex.Observable;
-import retrofit2.Callback;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.UserCredentials;
 import schweika.chatapplication.Repositories.Services.RXTokenService;
-import schweika.chatapplication.Repositories.Services.TokenService;
 
 public class RXAuthenticationRepository extends RXRepository
 {

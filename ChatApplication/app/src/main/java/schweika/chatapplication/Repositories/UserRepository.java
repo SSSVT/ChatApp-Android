@@ -1,7 +1,7 @@
 package schweika.chatapplication.Repositories;
 
 import retrofit2.Callback;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.Repositories.Services.UserService;
 

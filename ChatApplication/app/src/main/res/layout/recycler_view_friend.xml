@@ -25,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="@{viewModel.user.username}" />
+                android:text="@{viewModel.username}" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -34,7 +34,9 @@
                 android:layout_weight="1"
                 android:onClick="@{() -> viewModel.add()}"
                 android:visibility="@{viewModel.displayAdd ? View.VISIBLE : View.INVISIBLE}"
-                app:srcCompat="@drawable/ic_add_green_24dp" />
+                app:srcCompat="@drawable/ic_friend_add_24dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"/>
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -42,7 +44,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="@{() -> viewModel.remove()}"
-                app:srcCompat="@drawable/ic_remove_red_24dp" />
+                app:srcCompat="@drawable/ic_friend_remove_24dp"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"/>
 
         </LinearLayout>
 

@@ -18,7 +18,7 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import schweika.chatapplication.Models.Token;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.DateDeserializer;
@@ -115,15 +115,6 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         startActivity(intent);
     }
 
-    /*public void onLoginClick(View view)
-    {
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-        viewModel.onLoginClick();
-    }*/
-
     public void onRegisterClick(View view)
     {
         Intent intent = new Intent(this,RegisterActivity.class);
@@ -134,6 +125,12 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
     public void onLoginFailure()
     {
         //TODO: Show something
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        finishAffinity();
     }
 }
 

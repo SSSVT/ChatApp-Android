@@ -2,7 +2,6 @@ package schweika.chatapplication.RecyclerView.ViewModels;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.RecyclerView;
 
 import java.util.Date;
 
@@ -11,10 +10,8 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.R;
-import schweika.chatapplication.RecyclerView.Adapters.GenericRecyclerViewAdapter;
+import schweika.chatapplication.RecyclerView.GenericRecyclerViewAdapter;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
-import schweika.chatapplication.Repositories.Services.RXFriendshipService;
 import schweika.chatapplication.TokenSingleton;
 
 public class FriendViewModel extends BaseObservable
@@ -64,6 +61,11 @@ public class FriendViewModel extends BaseObservable
                 {
                     adapter.removeItem(this);
                 });
+    }
+
+    public String getUsername()
+    {
+        return (user.username.substring(0, 1).toUpperCase() + user.username.substring(1));
     }
 
     private boolean isFriend()
