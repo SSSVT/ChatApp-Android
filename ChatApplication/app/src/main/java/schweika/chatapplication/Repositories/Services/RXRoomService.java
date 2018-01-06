@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -20,11 +21,8 @@ public interface RXRoomService
     @GET("Rooms/FindByUserID")
     Observable<List<Room>> findByUserID(@Header("Authorization") String token, @Query("id") Long id);
 
-    @GET("Rooms/FindAll")
-    Observable<List<Room>> findAll(@Header("Authorization") String token);
-
     @POST("Rooms/Create")
-    Observable<Room> create(@Header("Authorization") String token,@Body Room room);
+    Single<Room> create(@Header("Authorization") String token, @Body Room room);
 
     @PUT("Rooms/Update/{id}")
     Completable update(@Header("Authorization") String token, @Path("id") long id, @Body Room room);

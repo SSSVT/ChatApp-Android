@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import schweika.chatapplication.R;
+import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 import schweika.chatapplication.ViewModels.RegisterViewModel;
 import schweika.chatapplication.ViewModels.RegisterViewModelWrapper;
 import schweika.chatapplication.databinding.ActivityRegisterBinding;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterListener
+public class RegisterActivity extends AppCompatActivity implements ViewModelListener
 {
     ActivityRegisterBinding binding;
 
@@ -34,7 +35,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterListe
     }
 
     @Override
-    public void registered()
+    public void onActionFailure(String message)
+    {
+
+    }
+
+    @Override
+    public void onActionSuccess()
     {
         finish();
     }

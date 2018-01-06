@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import schweika.chatapplication.R;
 import schweika.chatapplication.ViewModels.CreateRoomViewModel;
-import schweika.chatapplication.ViewModels.ViewModelListener;
+import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 import schweika.chatapplication.databinding.FragmentCreateRoomBinding;
 
 public class CreateRoomFragment extends Fragment implements ViewModelListener
@@ -35,7 +35,7 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
     }
 
     @Override
-    public void onActionFailure()
+    public void onActionFailure(String message)
     {
 
     }

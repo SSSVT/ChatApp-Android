@@ -1,35 +1,31 @@
 package schweika.chatapplication.ViewModels;
 
-import android.arch.lifecycle.ViewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.API.User;
+import schweika.chatapplication.Repositories.RXAuthenticationRepository;
 import schweika.chatapplication.UserValidator;
-import schweika.chatapplication.Repositories.AuthenticationRepository;
-import schweika.chatapplication.Views.Register.RegisterListener;
+import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 
 public class RegisterViewModel extends BaseObservable
 {
     private User user;
     private UserValidator validator;
-    private AuthenticationRepository repository = new AuthenticationRepository();
-    //private FutureTokenRepository futureTokenRepository = new FutureTokenRepository();
+    private RXAuthenticationRepository rxAuthenticationRepository = new RXAuthenticationRepository();
     private Boolean processingState = false;
-    private RegisterListener listener;
-
-    //private Timer usernameTimer = new Timer();
+    private ViewModelListener listener;
 
     private Calendar userBirthDate = Calendar.getInstance();
 
-    public RegisterViewModel(RegisterListener listener)
+    public RegisterViewModel(ViewModelListener listener)
     {
         this.listener = listener;
         this.user = new User();
@@ -43,14 +39,6 @@ public class RegisterViewModel extends BaseObservable
         userBirthDate.set(Calendar.MILLISECOND,0);
     }
 
-    public RegisterViewModel(RegisterListener listener, User user)
-    {
-        this.listener = listener;
-        this.user = user;
-
-        validator = new UserValidator(user);
-    }
-
     public User getUser()
     {
         return user;
@@ -59,7 +47,6 @@ public class RegisterViewModel extends BaseObservable
     @Bindable
     public boolean getProcessingState()
     {
-        //return processingState ? View.VISIBLE : View.GONE;
         return this.processingState;
     }
 
@@ -116,74 +103,16 @@ public class RegisterViewModel extends BaseObservable
 
     private void getUsernameAvailability()
     {
-        /*CompletableFuture<Response<Boolean>> responseFuture = CompletableFuture.supplyAsync(() -> futureTokenRepository.isUsernameAvailable(user.getUsername()));
 
-        responseFuture.thenAccept(this::updateUsernameAvailability);*/
-
-        /*responseFuture.thenAccept(response ->
-        {
-            if (response.body())
-            {
-                validator.setUsernameAvailable(true);
-            }
-            else
-            {
-                validator.setUsernameAvailable(false);
-            }
-
-            notifyPropertyChanged(BR.usernameError);
-        });*/
-
-        /*Future<Response<Boolean>> responseFuture =  futureTokenRepository.isUsernameAvailableAsync(user.getUsername());
-
-        try
-        {
-            Response<Boolean> response = responseFuture.get();
-
-            if (response.body())
-            {
-                validator.setUsernameAvailable(true);
-            }
-            else
-            {
-                validator.setUsernameAvailable(false);
-            }
-
-            notifyPropertyChanged(BR.usernameError);
-        }
-        catch (Exception e)
-        {
-        }*/
-
-        repository.isUsernameAvailable(user.username, new Callback<Boolean>()
-        {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response)
-            {
-                if (response.body())
-                {
-                    validator.setUsernameAvailable(true);
-                }
-                else
-                {
-                    validator.setUsernameAvailable(false);
-                }
-
-                notifyPropertyChanged(BR.usernameError);
-            }
-
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t)
-            {
-
-            }
-
-        });
+        rxAuthenticationRepository.isUsernameAvailable(user.username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateUsernameAvailability);
     }
 
-    private void updateUsernameAvailability(Response<Boolean> response)
+    private void updateUsernameAvailability(Boolean available)
     {
-        if (response.body())
+        if (available)
         {
             validator.setUsernameAvailable(true);
         }
@@ -327,39 +256,13 @@ public class RegisterViewModel extends BaseObservable
         {
             setProcessingState(true);
 
-            /*CompletableFuture<Response<Void>> future = CompletableFuture.supplyAsync(() -> futureTokenRepository.register(user));
-
-            future.thenAccept(this::successfullyRegistered);*/
-
-            repository.register(user, new Callback<Void>()
-            {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response)
-                {
-                    if (response.isSuccessful())
+            rxAuthenticationRepository.register(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(listener::onActionSuccess, throwable ->
                     {
-                        listener.registered();
-                    }
-
-                    setProcessingState(false);
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t)
-                {
-                    setProcessingState(false);
-                }
-            });
-        }
-    }
-
-    private void successfullyRegistered(Response<Void> response)
-    {
-        setProcessingState(false);
-
-        if (response.isSuccessful())
-        {
-            listener.registered();
+                        listener.onActionFailure("Registration failed");
+                    });
         }
     }
 }

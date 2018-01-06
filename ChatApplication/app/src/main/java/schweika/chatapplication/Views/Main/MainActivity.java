@@ -10,14 +10,13 @@ import com.google.gson.Gson;
 
 import java.util.TimeZone;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 import schweika.chatapplication.Models.API.Token;
-import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
+import schweika.chatapplication.Repositories.RXUserRepository;
 import schweika.chatapplication.TokenSingleton;
-import schweika.chatapplication.Repositories.UserRepository;
 import schweika.chatapplication.Views.Home.HomeActivity;
 import schweika.chatapplication.Views.Login.LoginActivity;
 
@@ -44,34 +43,28 @@ public class MainActivity extends AppCompatActivity
         {
             Token token = new Gson().fromJson(jwt,Token.class);
 
-            UserRepository repository = new UserRepository(token);
+            RXUserRepository repository = new RXUserRepository(token);
 
-            repository.getCurrentUser(new Callback<User>()
-            {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response)
-                {
-                    if (response.isSuccessful())
+            repository.getCurrentUser()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(user ->
                     {
                         TokenSingleton tokenSingleton = TokenSingleton.getInstance();
 
                         tokenSingleton.setToken(token);
-                        tokenSingleton.setUser(response.body());
+                        tokenSingleton.setUser(user);
                         startHomeActivity();
-                    }
-                    else
-                    {
-                        deleteToken();
-                        startLoginActivity();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<User> call, Throwable t)
-                {
-                    startLoginActivity();
-                }
-            });
+                    }, throwable ->
+                    {
+                        if (throwable instanceof HttpException)
+                        {
+                            deleteToken();
+                        }
+
+                        startLoginActivity();
+                    });
         }
     }
 

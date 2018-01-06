@@ -1,14 +1,10 @@
-package schweika.chatapplication.Views.Login;
+package schweika.chatapplication.ViewModels.Interfaces;
 
 import schweika.chatapplication.Models.API.Token;
-
-/**
- * Created by patri on 22.12.2017.
- */
 
 public interface LoginViewModelListener
 {
     void onLoginSuccess(Token token);
 
-    void onLoginFailure();
+    void onLoginFailure(String message);
 }

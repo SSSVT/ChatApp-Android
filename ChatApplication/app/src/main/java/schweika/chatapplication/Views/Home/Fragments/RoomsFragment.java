@@ -18,45 +18,29 @@ import java.util.ArrayList;
 
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.R;
-import schweika.chatapplication.RecyclerView.GenericRecyclerViewAdapter;
+import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.ViewModels.HomeViewModel;
 
 public class RoomsFragment extends Fragment
 {
     private RecyclerView recyclerView;
-    //private RoomRecyclerViewAdapter adapter;
     private GenericRecyclerViewAdapter<Room> adapter;
     private HomeViewModel viewModelWrapper;
-
-    public RoomsFragment()
-    {
-
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        viewModelWrapper = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-
-        adapter = new GenericRecyclerViewAdapter<>(viewModelWrapper.rooms.getValue(),R.layout.recycler_view_room);
-
-        viewModelWrapper.rooms.observe(this, new Observer<ArrayList<Room>>()
-        {
-            @Override
-            public void onChanged(@Nullable ArrayList<Room> rooms)
-            {
-                adapter.setList(rooms);
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_rooms, container, false);
 
+        initialize(view);
+
+        viewModelWrapper.updateRooms();
+
+        return view;
+    }
+
+    private void initialize(View view)
+    {
         FloatingActionButton button = view.findViewById(R.id.floatingActionButton_createRoom);
 
         button.setOnClickListener(new View.OnClickListener()
@@ -68,17 +52,28 @@ public class RoomsFragment extends Fragment
             }
         });
 
-        viewModelWrapper.updateRooms();
+        if (viewModelWrapper == null)
+        {
+            viewModelWrapper = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-        if (recyclerView == null)
-            recyclerView = view.findViewById(R.id.recyclerView_rooms);
+            viewModelWrapper.rooms.observe(this, new Observer<ArrayList<Room>>()
+            {
+                @Override
+                public void onChanged(@Nullable ArrayList<Room> rooms)
+                {
+                    adapter.setList(rooms);
+                }
+            });
+        }
 
+        if (adapter == null)
+            adapter = new GenericRecyclerViewAdapter<>(viewModelWrapper.rooms.getValue(),R.layout.recycler_view_room);
+
+        recyclerView = view.findViewById(R.id.recyclerView_rooms);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
-
-        return view;
     }
 
     private void openCreateRoomFragment()

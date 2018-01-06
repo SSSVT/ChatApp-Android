@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.Services.RXFriendshipService;
@@ -32,5 +33,10 @@ public class RXFriendshipRepository extends RXSecuredRepository
     public Completable edit(Friendship friendship)
     {
         return client.editFriendship(getTokenHeader(),friendship.id,friendship);
+    }
+
+    public Single<Friendship> create(Friendship friendship)
+    {
+        return client.createFriendship(getTokenHeader(),friendship);
     }
 }

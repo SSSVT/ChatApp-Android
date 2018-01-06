@@ -1,4 +1,4 @@
-package schweika.chatapplication.RecyclerView.ViewModels;
+package schweika.chatapplication.ViewModels;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.RecyclerView.GenericRecyclerViewAdapter;
+import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
 import schweika.chatapplication.TokenSingleton;
 

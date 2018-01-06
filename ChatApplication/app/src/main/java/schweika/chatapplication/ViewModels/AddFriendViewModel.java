@@ -1,22 +1,20 @@
 package schweika.chatapplication.ViewModels;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Friendship;
-import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Repositories.FriendshipRepository;
-import schweika.chatapplication.Repositories.UserRepository;
+import schweika.chatapplication.Repositories.RXFriendshipRepository;
+import schweika.chatapplication.Repositories.RXUserRepository;
 import schweika.chatapplication.TokenSingleton;
-import schweika.chatapplication.Views.Home.Fragments.FriendsFragment;
+import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 
 public class AddFriendViewModel
 {
     private String username;
     private ViewModelListener listener;
 
-    private UserRepository userRepository = new UserRepository(TokenSingleton.getInstance().getToken());
-    private FriendshipRepository friendshipRepository = new FriendshipRepository(TokenSingleton.getInstance().getToken());
+    private RXUserRepository rxUserRepository = new RXUserRepository(TokenSingleton.getInstance().getToken());
+    private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(TokenSingleton.getInstance().getToken());
 
     public AddFriendViewModel(ViewModelListener listener)
     {
@@ -37,45 +35,24 @@ public class AddFriendViewModel
     {
         if (username != TokenSingleton.getInstance().getUser().username)
         {
-            userRepository.findByUsername(this.username, new Callback<User>()
-            {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response)
-                {
-                    if (response.isSuccessful())
+
+            rxUserRepository.findByUsername(this.username)
+                    .flatMap(user ->
                     {
                         Friendship friendship = new Friendship();
 
                         friendship.idSender = TokenSingleton.getInstance().getUser().id;
-                        friendship.idRecipient = response.body().id;
+                        friendship.idRecipient = user.id;
 
-                        friendshipRepository.sendFriendship(friendship, new Callback<Friendship>()
-                        {
-                            @Override
-                            public void onResponse(Call<Friendship> call, Response<Friendship> response)
-                            {
-                                if (response.isSuccessful())
-                                {
-                                    listener.onActionSuccess();
-                                }
-                            }
+                        return rxFriendshipRepository.create(friendship);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe( friendship ->
+                    {
+                        listener.onActionSuccess();
+                    });
 
-                            @Override
-                            public void onFailure(Call<Friendship> call, Throwable t)
-                            {
-
-                            }
-                        });
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t)
-                {
-
-                }
-            });
         }
     }
 }

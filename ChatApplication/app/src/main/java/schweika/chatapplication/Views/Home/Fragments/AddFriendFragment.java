@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 
 import schweika.chatapplication.R;
 import schweika.chatapplication.ViewModels.AddFriendViewModel;
-import schweika.chatapplication.ViewModels.CreateRoomViewModel;
-import schweika.chatapplication.ViewModels.ViewModelListener;
+import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 import schweika.chatapplication.databinding.FragmentAddFriendBinding;
-import schweika.chatapplication.databinding.FragmentCreateRoomBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +38,7 @@ public class AddFriendFragment extends Fragment implements ViewModelListener
     }
 
     @Override
-    public void onActionFailure()
+    public void onActionFailure(String message)
     {
 
     }

@@ -15,15 +15,14 @@ import com.google.gson.GsonBuilder;
 
 import java.util.Date;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Token;
-import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.DateDeserializer;
+import schweika.chatapplication.Repositories.RXUserRepository;
 import schweika.chatapplication.TokenSingleton;
-import schweika.chatapplication.Repositories.UserRepository;
+import schweika.chatapplication.ViewModels.Interfaces.LoginViewModelListener;
 import schweika.chatapplication.ViewModels.LoginViewModel;
 import schweika.chatapplication.ViewModels.LoginViewModelWrapper;
 import schweika.chatapplication.Views.Home.HomeActivity;
@@ -88,25 +87,17 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
         editor.putString("JWT",jsonJWT);
         editor.apply();
 
-        TokenSingleton.getInstance().setToken(token);
+        //TODO: do this somewhere else
 
-        //TODO: do this in view model
-
-        new UserRepository(token).getCurrentUser(new Callback<User>()
-        {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response)
-            {
-                TokenSingleton.getInstance().setUser(response.body());
-                openHomeActivity();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t)
-            {
-
-            }
-        });
+        new RXUserRepository(token).getCurrentUser()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user ->
+                {
+                    TokenSingleton.getInstance().setUser(user);
+                    TokenSingleton.getInstance().setToken(token);
+                    openHomeActivity();
+                });
     }
 
     private void openHomeActivity()
@@ -122,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoginViewModelLi
     }
 
     @Override
-    public void onLoginFailure()
+    public void onLoginFailure(String message)
     {
         //TODO: Show something
     }
