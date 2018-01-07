@@ -33,4 +33,7 @@ public interface RXFriendshipService
 
     @GET("Friendships/GetByUserID/{id}")
     Observable<List<Friendship>> findByUserID(@Header("Authorization") String token, @Path("id") long id);
+
+    @PUT("Friendships/AcceptFriendship/{id}")
+    Completable acceptFriendship(@Header("Authorization") String token, @Path("id") UUID id);
 }

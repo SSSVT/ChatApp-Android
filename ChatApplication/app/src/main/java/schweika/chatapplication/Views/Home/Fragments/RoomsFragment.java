@@ -20,11 +20,13 @@ import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.R;
 import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.ViewModels.HomeViewModel;
+import schweika.chatapplication.ViewModels.Interfaces.RoomViewModelListener;
+import schweika.chatapplication.ViewModels.RoomViewModel;
 
-public class RoomsFragment extends Fragment
+public class RoomsFragment extends Fragment implements RoomViewModelListener
 {
     private RecyclerView recyclerView;
-    private GenericRecyclerViewAdapter<Room> adapter;
+    private GenericRecyclerViewAdapter<RoomViewModel> adapter;
     private HomeViewModel viewModelWrapper;
 
     @Override
@@ -61,13 +63,13 @@ public class RoomsFragment extends Fragment
                 @Override
                 public void onChanged(@Nullable ArrayList<Room> rooms)
                 {
-                    adapter.setList(rooms);
+                    adapter.setItems(getRoomViewModels(rooms));
                 }
             });
         }
 
         if (adapter == null)
-            adapter = new GenericRecyclerViewAdapter<>(viewModelWrapper.rooms.getValue(),R.layout.recycler_view_room);
+            adapter = new GenericRecyclerViewAdapter<>(getRoomViewModels(viewModelWrapper.rooms.getValue()),R.layout.recycler_view_room);
 
         recyclerView = view.findViewById(R.id.recyclerView_rooms);
         recyclerView.setHasFixedSize(true);
@@ -81,5 +83,44 @@ public class RoomsFragment extends Fragment
         FragmentManager manager = getActivity().getSupportFragmentManager();
 
         manager.beginTransaction().replace(R.id.fragment_content,new CreateRoomFragment(),"rooms").addToBackStack("rooms").commit();
+    }
+
+    private ArrayList<RoomViewModel> getRoomViewModels(ArrayList<Room> rooms)
+    {
+        ArrayList<RoomViewModel> roomViewModels = new ArrayList<>();
+
+        for (Room room : rooms)
+        {
+            RoomViewModel roomViewModel = new RoomViewModel(room,this);
+            roomViewModels.add(roomViewModel);
+        }
+
+        return roomViewModels;
+    }
+
+    @Override
+    public void onEnterRoom(RoomViewModel roomViewModel)
+    {
+        openRoomChatFragment();
+    }
+
+    @Override
+    public void onRemoveRoom(RoomViewModel roomViewModel)
+    {
+        this.adapter.removeItem(roomViewModel);
+        this.viewModelWrapper.rooms.getValue().remove(roomViewModel.room);
+    }
+
+    @Override
+    public void onEditRoom(RoomViewModel roomViewModel)
+    {
+
+    }
+
+    private void openRoomChatFragment()
+    {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+
+        manager.beginTransaction().replace(R.id.fragment_content,new RoomChatFragment(),"rooms").addToBackStack("rooms").commit();
     }
 }

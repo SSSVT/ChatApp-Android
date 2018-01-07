@@ -6,18 +6,19 @@ import android.databinding.Bindable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.BR;
+import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.UserCredentials;
 import schweika.chatapplication.Repositories.RXAuthenticationRepository;
-import schweika.chatapplication.ViewModels.Interfaces.LoginViewModelListener;
+import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
 
 public class LoginViewModel extends BaseObservable
 {
     private RXAuthenticationRepository rxAuthenticationRepository = new RXAuthenticationRepository();
     private UserCredentials userCredentials;
-    private LoginViewModelListener listener;
+    private GenericViewModelListener<Token> listener;
     private boolean processingState;
 
-    public LoginViewModel(LoginViewModelListener listener)
+    public LoginViewModel(GenericViewModelListener<Token> listener)
     {
         this.listener = listener;
         this.userCredentials = new UserCredentials();
@@ -69,10 +70,10 @@ public class LoginViewModel extends BaseObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> {setProcessingState(false);})
-                .subscribe(listener::onLoginSuccess,
+                .subscribe(listener::onActionSuccess,
                         throwable ->
                         {
-                            listener.onLoginFailure("Login failed");
+                            listener.onActionFailure("Login failed");
                         });
     }
 }

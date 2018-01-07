@@ -33,11 +33,18 @@
             android:inputType="textPersonName"
             android:text="@={viewModel.room.description}" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_roomFriends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
         <Button
             android:id="@+id/button_roomCreate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.create()}"
+            android:layout_weight="0"
             android:text="Create" />
     </LinearLayout>
 

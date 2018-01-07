@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class GenericRecyclerViewAdapter<T> extends RecyclerView.Adapter<GenericRecyclerViewAdapter.ViewHolder> {
 
-    private int layoutId;
-    private ArrayList<T> list;
+    protected int layoutId;
+    protected ArrayList<T> items;
 
     public GenericRecyclerViewAdapter(ArrayList<T> list, int layoutId)
     {
-        this.list = list;
+        this.items = list;
         this.layoutId = layoutId;
     }
 
@@ -35,22 +35,22 @@ public class GenericRecyclerViewAdapter<T> extends RecyclerView.Adapter<GenericR
         }
     }
 
-    public void setList(ArrayList<T> list)
+    public void setItems(ArrayList<T> items)
     {
-        this.list = list;
+        this.items = items;
         notifyDataSetChanged();
     }
 
     public void removeItem(T item)
     {
-        this.list.remove(item);
+        this.items.remove(item);
         notifyDataSetChanged();
     }
 
     public void addItem(T item)
     {
-        this.list.add(item);
-        notifyDataSetChanged();
+        this.items.add(item);
+        notifyItemInserted(this.items.size() - 1);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class GenericRecyclerViewAdapter<T> extends RecyclerView.Adapter<GenericR
     @Override
     public void onBindViewHolder(ViewHolder holder, int position)
     {
-        T model = list.get(position);
+        T model = items.get(position);
 
         holder.getBinding().setVariable(BR.viewModel, model);
         holder.getBinding().executePendingBindings();
@@ -77,7 +77,7 @@ public class GenericRecyclerViewAdapter<T> extends RecyclerView.Adapter<GenericR
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return items.size();
     }
 
 }

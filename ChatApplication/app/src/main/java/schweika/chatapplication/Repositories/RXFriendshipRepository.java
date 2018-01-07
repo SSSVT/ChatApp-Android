@@ -39,4 +39,9 @@ public class RXFriendshipRepository extends RXSecuredRepository
     {
         return client.createFriendship(getTokenHeader(),friendship);
     }
+
+    public Completable acceptFriendship(UUID id)
+    {
+        return client.acceptFriendship(getTokenHeader(),id);
+    }
 }

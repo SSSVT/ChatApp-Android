@@ -1,5 +1,8 @@
 package schweika.chatapplication.Repositories;
 
+import java.util.List;
+
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.Models.API.Token;
@@ -25,5 +28,10 @@ public class RXUserRepository extends RXSecuredRepository
     public Single<User> findByUsername(String username)
     {
         return client.findByUsername(getTokenHeader(), username);
+    }
+
+    public Observable<List<User>> findUsersByUsername(String username)
+    {
+        return client.findUsersByUsername(getTokenHeader(),username);
     }
 }

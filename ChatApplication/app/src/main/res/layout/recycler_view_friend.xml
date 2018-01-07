@@ -12,49 +12,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:weightSum="5">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:layout_weight="3"
+            android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/textView_friendUsername"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
                 android:text="@{viewModel.username}" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/textView_pending"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.add()}"
-                android:visibility="@{viewModel.displayAdd ? View.VISIBLE : View.INVISIBLE}"
-                app:srcCompat="@drawable/ic_friend_add_24dp"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"/>
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{() -> viewModel.remove()}"
-                app:srcCompat="@drawable/ic_friend_remove_24dp"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"/>
+                android:text="@{viewModel.actionMessage}" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView_pending"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.actionMessage}" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.add()}"
+            android:visibility="@{viewModel.displayAdd ? View.VISIBLE : View.INVISIBLE}"
+            app:srcCompat="@drawable/ic_friend_add_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.remove()}"
+            app:srcCompat="@drawable/ic_friend_remove_24dp" />
 
     </LinearLayout>
+
 </layout>

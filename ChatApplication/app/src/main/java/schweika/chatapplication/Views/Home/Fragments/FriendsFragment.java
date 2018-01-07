@@ -24,8 +24,9 @@ import schweika.chatapplication.R;
 import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.ViewModels.FriendViewModel;
 import schweika.chatapplication.ViewModels.HomeViewModel;
+import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
 
-public class FriendsFragment extends Fragment
+public class FriendsFragment extends Fragment implements GenericViewModelListener<FriendViewModel>
 {
     private RecyclerView recyclerView;
     private GenericRecyclerViewAdapter<FriendViewModel> adapter;
@@ -37,7 +38,7 @@ public class FriendsFragment extends Fragment
 
         for (Map.Entry<Friendship, User> map : friends.entrySet())
         {
-            FriendViewModel friendViewModel = new FriendViewModel(map.getKey(),map.getValue(),adapter);
+            FriendViewModel friendViewModel = new FriendViewModel(map.getKey(),map.getValue(),this);
             friendViewModels.add(friendViewModel);
         }
 
@@ -84,7 +85,7 @@ public class FriendsFragment extends Fragment
                 @Override
                 public void onChanged(@Nullable HashMap<Friendship, User> friendshipUserHashMap)
                 {
-                    adapter.setList(getFriendViewModels(friendshipUserHashMap));
+                    adapter.setItems(getFriendViewModels(friendshipUserHashMap));
                 }
             });
         }
@@ -93,7 +94,7 @@ public class FriendsFragment extends Fragment
         if (adapter == null)
         {
             adapter = new GenericRecyclerViewAdapter<>(new ArrayList<FriendViewModel>(),R.layout.recycler_view_friend);
-            adapter.setList(getFriendViewModels(viewModelWrapper.friends.getValue()));
+            adapter.setItems(getFriendViewModels(viewModelWrapper.friends.getValue()));
 
         }
 
@@ -102,5 +103,19 @@ public class FriendsFragment extends Fragment
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActionFailure(String message)
+    {
+
+
+    }
+
+    @Override
+    public void onActionSuccess(FriendViewModel item)
+    {
+        adapter.removeItem(item);
+        viewModelWrapper.friends.getValue().remove(item.friendship);
     }
 }

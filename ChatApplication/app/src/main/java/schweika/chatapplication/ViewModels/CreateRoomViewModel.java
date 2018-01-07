@@ -1,36 +1,96 @@
 package schweika.chatapplication.ViewModels;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import schweika.chatapplication.Models.API.Participant;
 import schweika.chatapplication.Models.API.Room;
+import schweika.chatapplication.Models.API.User;
+import schweika.chatapplication.Models.RoomUsers;
+import schweika.chatapplication.Repositories.RXParticipantRepository;
 import schweika.chatapplication.Repositories.RXRoomRepository;
+import schweika.chatapplication.SelectableRecyclerViewAdapter;
 import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.ViewModels.Interfaces.CreateRoomListener;
+import schweika.chatapplication.ViewModels.Interfaces.SelectableViewModelListener;
 import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 
-public class CreateRoomViewModel
+public class CreateRoomViewModel implements SelectableViewModelListener<RoomFriendViewModel>
 {
-    public Room room = new Room();
+    public Room room;
     private RXRoomRepository repository = new RXRoomRepository(TokenSingleton.getInstance().getToken());
+    RXParticipantRepository rxParticipantRepository = new RXParticipantRepository(TokenSingleton.getInstance().getToken());
+    private ArrayList<User> selectedUsers = new ArrayList<>();
 
     ViewModelListener listener;
 
     public CreateRoomViewModel(ViewModelListener listener)
     {
+        room = new Room();
         room.idOwner = TokenSingleton.getInstance().getUser().id;
         this.listener = listener;
     }
 
+    public CreateRoomViewModel(Room room, ViewModelListener listener)
+    {
+        this.room = room;
+        this.listener = listener;
+        room.idOwner = TokenSingleton.getInstance().getUser().id;
+    }
+
     public void create()
+    {
+        createRoom();
+    }
+
+    private void createRoom()
     {
         repository.create(room)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( room1 ->
+                .subscribe(this::createParticipants, throwable ->
                 {
-                    listener.onActionSuccess();
-                }, throwable ->
-                {
-                    listener.onActionFailure("");
+
                 });
+    }
+
+    private void createParticipants(Room room1)
+    {
+        if (selectedUsers.size() > 0)
+        {
+            Observable.just(selectedUsers)
+                    .flatMapIterable(users -> users)
+                    .flatMapCompletable(user ->
+                    {
+                        Participant participant = new Participant();
+                        participant.idUser = user.id;
+                        participant.idRoom = room1.id;
+
+                        return rxParticipantRepository.add(participant);
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() ->
+                    {
+                        listener.onActionSuccess();
+                    }, throwable ->
+                    {
+
+                    });
+
+
+        }
+    }
+
+    @Override
+    public void onSelectedChange(boolean value, RoomFriendViewModel item)
+    {
+        if (value)
+            selectedUsers.add(item.friend);
+        else
+            selectedUsers.remove(item.friend);
     }
 }

@@ -1,5 +1,6 @@
 package schweika.chatapplication.Repositories.Services;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,5 +11,5 @@ import schweika.chatapplication.Models.API.Participant;
 public interface RXParticipantService
 {
     @POST("Participants/PostParticipant")
-    Observable<Void> addParticipant(@Header("Authorization") String token, @Body Participant participant);
+    Completable addParticipant(@Header("Authorization") String token, @Body Participant participant);
 }

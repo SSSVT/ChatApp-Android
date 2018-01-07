@@ -13,43 +13,33 @@ import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
 import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
 
 public class FriendViewModel extends BaseObservable
 {
     public Friendship friendship;
     public User user;
     private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(TokenSingleton.getInstance().getToken());
-    private GenericRecyclerViewAdapter<FriendViewModel> adapter;
+    private GenericViewModelListener<FriendViewModel> listener;
 
-    public FriendViewModel(Friendship friendship, User user, GenericRecyclerViewAdapter<FriendViewModel> adapter)
+    public FriendViewModel(Friendship friendship, User user, GenericViewModelListener<FriendViewModel> listener)
     {
         this.friendship = friendship;
         this.user = user;
-        this.adapter = adapter;
+        this.listener = listener;
     }
 
     public void add()
     {
-        this.friendship.accepted = new Date();
-
-
-        rxFriendshipRepository.edit(friendship)
+        rxFriendshipRepository.acceptFriendship(friendship.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnTerminate(() ->
-                {
-                    notifyPropertyChanged(BR.actionMessage);
-                    notifyPropertyChanged(BR.displayAdd);
-                })
                 .subscribe(() ->
                 {
-
-                }, throwable ->
-                {
-                    this.friendship.accepted = null;
+                    this.friendship.accepted = new Date();
+                    notifyPropertyChanged(BR.actionMessage);
+                    notifyPropertyChanged(BR.displayAdd);
                 });
-
-
     }
 
     public void remove()
@@ -59,7 +49,7 @@ public class FriendViewModel extends BaseObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() ->
                 {
-                    adapter.removeItem(this);
+                    listener.onActionSuccess(this);
                 });
     }
 
