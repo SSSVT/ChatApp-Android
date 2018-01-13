@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="schweika.chatapplication.Views.Home.Fragments.RoomChatFragment">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="schweika.chatapplication.ViewModels.ChatViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +39,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="7"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:text="@={viewModel.messageInput}"/>
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -42,7 +50,8 @@
                 android:layout_weight="3"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:src="@drawable/ic_send_24dp" />
+                android:src="@drawable/ic_send_24dp"
+                android:onClick="@{() -> viewModel.send()}"/>
         </LinearLayout>
     </LinearLayout>
 

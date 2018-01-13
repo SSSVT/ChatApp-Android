@@ -10,9 +10,10 @@ public class Message
     public UUID id;
     public long idRoom;
     public long idUser;
-    public Date send;
+    public Date utcSend;
+    public Date utcServerReceived;
     public String content;
 
-    public Room room;
-    public User owner;
+    //public Room room;
+    //public User owner;
 }

@@ -22,7 +22,9 @@ public class HomeViewModel extends ViewModel
 {
 
     public MutableLiveData<ArrayList<Room>> rooms = new MutableLiveData<>();
-    public MutableLiveData<HashMap<Friendship,User>> friends = new MutableLiveData<>();
+    //public MutableLiveData<HashMap<Friendship,User>> friends = new MutableLiveData<>();
+
+    public MutableLiveData<ArrayList<Friendship>> friendships = new MutableLiveData<>();
 
     private Token token = TokenSingleton.getInstance().getToken();
     public User currentUser = TokenSingleton.getInstance().getUser();
@@ -34,7 +36,7 @@ public class HomeViewModel extends ViewModel
     public HomeViewModel()
     {
         rooms.setValue(new ArrayList<>());
-        friends.setValue(new HashMap<>());
+        friendships.setValue(new ArrayList<>());
 
         updateRooms();
         updateFriends();
@@ -70,7 +72,15 @@ public class HomeViewModel extends ViewModel
 
     public void updateFriends()
     {
-        HashMap<Friendship, User> friendshipUserHashMap = new HashMap<>();
+        rxFriendshipRepository.findByUserID(currentUser.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(friendships1 ->
+                {
+                    this.friendships.setValue(new ArrayList<>(friendships1));
+                });
+
+        /*HashMap<Friendship, User> friendshipUserHashMap = new HashMap<>();
 
         rxFriendshipRepository.findByUserID(currentUser.id)
                 .flatMapIterable(friendships -> friendships)
@@ -86,6 +96,6 @@ public class HomeViewModel extends ViewModel
                     }
 
                     friends.setValue(friendshipUserHashMap);
-                });
+                });*/
     }
 }

@@ -26,6 +26,7 @@ import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.SelectableRecyclerViewAdapter;
+import schweika.chatapplication.TokenSingleton;
 import schweika.chatapplication.ViewModels.CreateRoomViewModel;
 import schweika.chatapplication.ViewModels.FriendViewModel;
 import schweika.chatapplication.ViewModels.HomeViewModel;
@@ -52,12 +53,12 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
         {
             viewModelWrapper = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-            viewModelWrapper.friends.observe(this, new Observer<HashMap<Friendship, User>>()
+            viewModelWrapper.friendships.observe(this, new Observer<ArrayList<Friendship>>()
             {
                 @Override
-                public void onChanged(@Nullable HashMap<Friendship, User> friendshipUserHashMap)
+                public void onChanged(@Nullable ArrayList<Friendship> friendships)
                 {
-                    adapter.setItems(getRoomFriendViewModels(friendshipUserHashMap));
+                    adapter.setItems(getRoomFriendViewModels(friendships));
                 }
             });
         }
@@ -66,7 +67,7 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
             viewModel = new CreateRoomViewModel(this);
 
         if (adapter == null)
-            adapter = new SelectableRecyclerViewAdapter<>(getRoomFriendViewModels(viewModelWrapper.friends.getValue()),R.layout.recycler_view_room_friend);
+            adapter = new SelectableRecyclerViewAdapter<>(getRoomFriendViewModels(viewModelWrapper.friendships.getValue()),R.layout.recycler_view_room_friend);
 
         recyclerView = view.findViewById(R.id.recyclerView_roomFriends);
         recyclerView.setHasFixedSize(true);
@@ -81,14 +82,25 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
         return view;
     }
 
-    private ArrayList<RoomFriendViewModel> getRoomFriendViewModels(HashMap<Friendship, User> friendshipUserHashMap)
+    private ArrayList<RoomFriendViewModel> getRoomFriendViewModels(ArrayList<Friendship> friendships)
     {
+        User currentUser = TokenSingleton.getInstance().getUser();
+
         ArrayList<RoomFriendViewModel> viewModels = new ArrayList<>();
 
-        for (Map.Entry<Friendship,User> entry : friendshipUserHashMap.entrySet())
+        for (Friendship friendship : friendships)
         {
-            if (entry.getKey().accepted != null)
-                viewModels.add(new RoomFriendViewModel(entry.getValue(), viewModel));
+            if (friendship.accepted != null)
+            {
+                User otherUser;
+
+                if (friendship.idSender == currentUser.id)
+                    otherUser = friendship.recipient;
+                else
+                    otherUser = friendship.sender;
+
+                viewModels.add(new RoomFriendViewModel(otherUser,viewModel));
+            }
         }
 
         return viewModels;

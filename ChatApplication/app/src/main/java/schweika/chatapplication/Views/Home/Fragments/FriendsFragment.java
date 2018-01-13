@@ -22,6 +22,7 @@ import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.GenericRecyclerViewAdapter;
+import schweika.chatapplication.TokenSingleton;
 import schweika.chatapplication.ViewModels.FriendViewModel;
 import schweika.chatapplication.ViewModels.HomeViewModel;
 import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
@@ -32,14 +33,24 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
     private GenericRecyclerViewAdapter<FriendViewModel> adapter;
     private HomeViewModel viewModelWrapper;
 
-    private ArrayList<FriendViewModel> getFriendViewModels(HashMap<Friendship, User> friends)
+    private ArrayList<FriendViewModel> getFriendViewModels(ArrayList<Friendship> friendships)
     {
         ArrayList<FriendViewModel> friendViewModels = new ArrayList<>();
 
-        for (Map.Entry<Friendship, User> map : friends.entrySet())
+        User currentUser = TokenSingleton.getInstance().getUser();
+
+        for (Friendship friendship : friendships)
         {
-            FriendViewModel friendViewModel = new FriendViewModel(map.getKey(),map.getValue(),this);
+            User otherUser;
+
+            if (friendship.idSender == currentUser.id)
+                otherUser = friendship.recipient;
+            else
+                otherUser = friendship.sender;
+
+            FriendViewModel friendViewModel = new FriendViewModel(friendship,otherUser,this);
             friendViewModels.add(friendViewModel);
+
         }
 
         return  friendViewModels;
@@ -78,14 +89,14 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         });
 
         if (viewModelWrapper == null)
-        {
+            {
             viewModelWrapper = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-            viewModelWrapper.friends.observe(this, new Observer<HashMap<Friendship, User>>()
+            viewModelWrapper.friendships.observe(this, new Observer<ArrayList<Friendship>>()
             {
                 @Override
-                public void onChanged(@Nullable HashMap<Friendship, User> friendshipUserHashMap)
+                public void onChanged(@Nullable ArrayList<Friendship> friendships)
                 {
-                    adapter.setItems(getFriendViewModels(friendshipUserHashMap));
+                    adapter.setItems(getFriendViewModels(friendships));
                 }
             });
         }
@@ -94,7 +105,7 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         if (adapter == null)
         {
             adapter = new GenericRecyclerViewAdapter<>(new ArrayList<FriendViewModel>(),R.layout.recycler_view_friend);
-            adapter.setItems(getFriendViewModels(viewModelWrapper.friends.getValue()));
+            adapter.setItems(getFriendViewModels(viewModelWrapper.friendships.getValue()));
 
         }
 
@@ -116,6 +127,6 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
     public void onActionSuccess(FriendViewModel item)
     {
         adapter.removeItem(item);
-        viewModelWrapper.friends.getValue().remove(item.friendship);
+        viewModelWrapper.friendships.getValue().remove(item.friendship);
     }
 }

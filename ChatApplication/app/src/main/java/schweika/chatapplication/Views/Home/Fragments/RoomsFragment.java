@@ -101,7 +101,7 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
     @Override
     public void onEnterRoom(RoomViewModel roomViewModel)
     {
-        openRoomChatFragment();
+        openRoomChatFragment(roomViewModel.room.id);
     }
 
     @Override
@@ -117,10 +117,16 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
 
     }
 
-    private void openRoomChatFragment()
+    private void openRoomChatFragment(long roomID)
     {
         FragmentManager manager = getActivity().getSupportFragmentManager();
 
-        manager.beginTransaction().replace(R.id.fragment_content,new RoomChatFragment(),"rooms").addToBackStack("rooms").commit();
+        RoomChatFragment fragment = new RoomChatFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putLong("id",roomID);
+        fragment.setArguments(bundle);
+
+        manager.beginTransaction().replace(R.id.fragment_content,fragment,"rooms").addToBackStack("rooms").commit();
     }
 }

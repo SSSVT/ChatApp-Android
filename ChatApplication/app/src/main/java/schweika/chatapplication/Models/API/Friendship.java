@@ -16,6 +16,6 @@ public class Friendship
     @SerializedName("utcAccepted")
     public Date accepted;
 
-    //public User sender;
-    //public User recipient;
+    public User sender;
+    public User recipient;
 }
