@@ -140,7 +140,7 @@ public class ChatViewModel extends BaseObservable
 
     private void checkForMessages()
     {
-        Date date;
+        /*Date date;
 
         if (this.messages.size() > 0)
             date = getLatestMessage().utcServerReceived;
@@ -154,6 +154,14 @@ public class ChatViewModel extends BaseObservable
                 {
                     if (messages1.size() > 0)
                         addMessages(messages1);
+                });*/
+
+        rxMessageRepository.getByRoomID(room.id,room.utcCreationDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(messages1 ->
+                {
+                    this.setMessages(new ArrayList<>(messages1));
                 });
     }
 
