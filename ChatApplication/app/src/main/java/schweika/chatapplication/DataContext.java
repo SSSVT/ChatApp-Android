@@ -3,21 +3,21 @@ package schweika.chatapplication;
 import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.API.User;
 
-public class TokenSingleton
+public class DataContext
 {
     private Token token;
     private User user;
 
-    private TokenSingleton()
+    private DataContext()
     {
     }
 
-    private static TokenSingleton instance;
+    private static DataContext instance;
 
-    public static TokenSingleton getInstance()
+    public static DataContext getInstance()
     {
         if (instance == null)
-            instance = new TokenSingleton();
+            instance = new DataContext();
 
         return instance;
     }

@@ -15,14 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.GenericRecyclerViewAdapter;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.FriendViewModel;
 import schweika.chatapplication.ViewModels.HomeViewModel;
 import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
@@ -32,12 +32,15 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
     private RecyclerView recyclerView;
     private GenericRecyclerViewAdapter<FriendViewModel> adapter;
     private HomeViewModel viewModelWrapper;
+    private Timer timer;
+    private TimerTask timerTask;
+
 
     private ArrayList<FriendViewModel> getFriendViewModels(ArrayList<Friendship> friendships)
     {
         ArrayList<FriendViewModel> friendViewModels = new ArrayList<>();
 
-        User currentUser = TokenSingleton.getInstance().getUser();
+        User currentUser = DataContext.getInstance().getUser();
 
         for (Friendship friendship : friendships)
         {
@@ -62,8 +65,6 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
         initialize(view);
-
-        viewModelWrapper.updateFriends();
 
         return view;
     }
@@ -106,7 +107,6 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         {
             adapter = new GenericRecyclerViewAdapter<>(new ArrayList<FriendViewModel>(),R.layout.recycler_view_friend);
             adapter.setItems(getFriendViewModels(viewModelWrapper.friendships.getValue()));
-
         }
 
         recyclerView = view.findViewById(R.id.recyclerView_friend);
@@ -114,6 +114,18 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        this.timer = new Timer();
+        timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                viewModelWrapper.updateFriends();
+            }
+        };
+
+        timer.schedule(timerTask,0,5000);
     }
 
     @Override
@@ -121,6 +133,15 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
     {
 
 
+    }
+
+    @Override
+    public void onPause()
+    {
+        timer.cancel();
+        timer.purge();
+
+        super.onPause();
     }
 
     @Override

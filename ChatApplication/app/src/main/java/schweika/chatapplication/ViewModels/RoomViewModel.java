@@ -4,14 +4,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.Repositories.RXRoomRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.Interfaces.RoomViewModelListener;
 
 public class RoomViewModel
 {
     public Room room;
     private RoomViewModelListener listener;
-    private RXRoomRepository rxRoomRepository = new RXRoomRepository(TokenSingleton.getInstance().getToken());
+    private RXRoomRepository rxRoomRepository = new RXRoomRepository(DataContext.getInstance().getToken());
 
     public RoomViewModel(Room room, RoomViewModelListener listener)
     {
@@ -32,7 +32,7 @@ public class RoomViewModel
 
     public boolean isOwner()
     {
-        if (TokenSingleton.getInstance().getUser().id == room.idOwner)
+        if (DataContext.getInstance().getUser().id == room.idOwner)
             return true;
         else
             return false;

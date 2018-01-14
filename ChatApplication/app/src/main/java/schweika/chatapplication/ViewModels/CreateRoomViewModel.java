@@ -1,7 +1,6 @@
 package schweika.chatapplication.ViewModels;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -9,20 +8,17 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Participant;
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.Models.RoomUsers;
 import schweika.chatapplication.Repositories.RXParticipantRepository;
 import schweika.chatapplication.Repositories.RXRoomRepository;
-import schweika.chatapplication.SelectableRecyclerViewAdapter;
-import schweika.chatapplication.TokenSingleton;
-import schweika.chatapplication.ViewModels.Interfaces.CreateRoomListener;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.Interfaces.SelectableViewModelListener;
 import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 
 public class CreateRoomViewModel implements SelectableViewModelListener<RoomFriendViewModel>
 {
     public Room room;
-    private RXRoomRepository repository = new RXRoomRepository(TokenSingleton.getInstance().getToken());
-    RXParticipantRepository rxParticipantRepository = new RXParticipantRepository(TokenSingleton.getInstance().getToken());
+    private RXRoomRepository repository = new RXRoomRepository(DataContext.getInstance().getToken());
+    RXParticipantRepository rxParticipantRepository = new RXParticipantRepository(DataContext.getInstance().getToken());
     private ArrayList<User> selectedUsers = new ArrayList<>();
 
     ViewModelListener listener;
@@ -30,7 +26,7 @@ public class CreateRoomViewModel implements SelectableViewModelListener<RoomFrie
     public CreateRoomViewModel(ViewModelListener listener)
     {
         room = new Room();
-        room.idOwner = TokenSingleton.getInstance().getUser().id;
+        room.idOwner = DataContext.getInstance().getUser().id;
         this.listener = listener;
     }
 
@@ -38,7 +34,7 @@ public class CreateRoomViewModel implements SelectableViewModelListener<RoomFrie
     {
         this.room = room;
         this.listener = listener;
-        room.idOwner = TokenSingleton.getInstance().getUser().id;
+        room.idOwner = DataContext.getInstance().getUser().id;
     }
 
     public void create()

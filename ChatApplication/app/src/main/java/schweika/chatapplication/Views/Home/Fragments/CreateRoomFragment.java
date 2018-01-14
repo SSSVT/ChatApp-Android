@@ -16,21 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.R;
 import schweika.chatapplication.SelectableRecyclerViewAdapter;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.CreateRoomViewModel;
-import schweika.chatapplication.ViewModels.FriendViewModel;
 import schweika.chatapplication.ViewModels.HomeViewModel;
-import schweika.chatapplication.ViewModels.Interfaces.CreateRoomListener;
 import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 import schweika.chatapplication.ViewModels.RoomFriendViewModel;
 import schweika.chatapplication.databinding.FragmentCreateRoomBinding;
@@ -84,7 +77,7 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
 
     private ArrayList<RoomFriendViewModel> getRoomFriendViewModels(ArrayList<Friendship> friendships)
     {
-        User currentUser = TokenSingleton.getInstance().getUser();
+        User currentUser = DataContext.getInstance().getUser();
 
         ArrayList<RoomFriendViewModel> viewModels = new ArrayList<>();
 

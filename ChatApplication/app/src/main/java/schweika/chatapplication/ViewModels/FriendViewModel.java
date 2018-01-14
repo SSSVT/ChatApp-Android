@@ -10,16 +10,15 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Models.API.User;
-import schweika.chatapplication.GenericRecyclerViewAdapter;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
 
 public class FriendViewModel extends BaseObservable
 {
     public Friendship friendship;
     public User user;
-    private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(TokenSingleton.getInstance().getToken());
+    private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(DataContext.getInstance().getToken());
     private GenericViewModelListener<FriendViewModel> listener;
 
     public FriendViewModel(Friendship friendship, User user, GenericViewModelListener<FriendViewModel> listener)
@@ -68,7 +67,7 @@ public class FriendViewModel extends BaseObservable
 
     private boolean isSender()
     {
-        if (friendship.idSender == TokenSingleton.getInstance().getUser().id)
+        if (friendship.idSender == DataContext.getInstance().getUser().id)
         {
             return true;
         }

@@ -2,10 +2,8 @@ package schweika.chatapplication.ViewModels;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -16,7 +14,7 @@ import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
 import schweika.chatapplication.Repositories.RXRoomRepository;
 import schweika.chatapplication.Repositories.RXUserRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 
 public class HomeViewModel extends ViewModel
 {
@@ -26,8 +24,8 @@ public class HomeViewModel extends ViewModel
 
     public MutableLiveData<ArrayList<Friendship>> friendships = new MutableLiveData<>();
 
-    private Token token = TokenSingleton.getInstance().getToken();
-    public User currentUser = TokenSingleton.getInstance().getUser();
+    private Token token = DataContext.getInstance().getToken();
+    public User currentUser = DataContext.getInstance().getUser();
 
     private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(token);
     private RXUserRepository rxUserRepository = new RXUserRepository(token);

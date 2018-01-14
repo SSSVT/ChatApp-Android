@@ -11,40 +11,27 @@
             type="schweika.chatapplication.ViewModels.MessageViewModel"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/textView_serverReceived"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{viewModel.message.utcServerReceived.toString()}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="@{viewModel.owner}"
+        android:background="@{viewModel.owner ? @drawable/message_owner_rounded_corners : @drawable/message_rounded_corners}"
+        android:layout_centerVertical="true"
+        android:padding="6dp">
 
             <TextView
                 android:id="@+id/textView_username"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@{viewModel.participant.user.username}" />
-
-            <TextView
-                android:id="@+id/textView_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:singleLine="false"
-                android:text="@{viewModel.message.content}" />
-        </LinearLayout>
-
-    </LinearLayout>
+                android:text="@{viewModel.participant.user.username + `: ` + viewModel.message.content}"
+                android:textColor="@{viewModel.owner ? @color/TextWhite : @color/TextBlack}" />
+    </RelativeLayout>
+    </RelativeLayout>
 
 </layout>

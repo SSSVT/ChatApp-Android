@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.R;
@@ -28,6 +30,8 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
     private RecyclerView recyclerView;
     private GenericRecyclerViewAdapter<RoomViewModel> adapter;
     private HomeViewModel viewModelWrapper;
+    private Timer timer;
+    private TimerTask timerTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,8 +39,6 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
         View view = inflater.inflate(R.layout.fragment_rooms, container, false);
 
         initialize(view);
-
-        viewModelWrapper.updateRooms();
 
         return view;
     }
@@ -76,6 +78,19 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        this.timer = new Timer();
+
+        timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                viewModelWrapper.updateRooms();
+            }
+        };
+
+        timer.schedule(timerTask,0,5000);
     }
 
     private void openCreateRoomFragment()
@@ -115,6 +130,15 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
     public void onEditRoom(RoomViewModel roomViewModel)
     {
 
+    }
+
+    @Override
+    public void onPause()
+    {
+        timer.cancel();
+        timer.purge();
+
+        super.onPause();
     }
 
     private void openRoomChatFragment(long roomID)

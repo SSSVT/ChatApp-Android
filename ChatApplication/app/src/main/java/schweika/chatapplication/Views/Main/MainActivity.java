@@ -16,7 +16,7 @@ import retrofit2.HttpException;
 import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.R;
 import schweika.chatapplication.Repositories.RXUserRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.Views.Home.HomeActivity;
 import schweika.chatapplication.Views.Login.LoginActivity;
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(user ->
                     {
-                        TokenSingleton tokenSingleton = TokenSingleton.getInstance();
+                        DataContext tokenSingleton = DataContext.getInstance();
 
                         tokenSingleton.setToken(token);
                         tokenSingleton.setUser(user);

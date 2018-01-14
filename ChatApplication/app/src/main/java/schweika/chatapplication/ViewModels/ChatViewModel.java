@@ -5,8 +5,6 @@ import android.databinding.Bindable;
 import android.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -22,7 +20,7 @@ import schweika.chatapplication.Models.API.Room;
 import schweika.chatapplication.Models.API.User;
 import schweika.chatapplication.Repositories.RXMessageRepository;
 import schweika.chatapplication.Repositories.RXParticipantRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 
 public class ChatViewModel extends BaseObservable
 {
@@ -31,10 +29,11 @@ public class ChatViewModel extends BaseObservable
     public ArrayList<Message> messages = new ArrayList<>();
     private String messageInput = "";
     private GenericRecyclerViewAdapter<MessageViewModel> adapter;
-    private User curentUser = TokenSingleton.getInstance().getUser();
+    private User curentUser = DataContext.getInstance().getUser();
+    private Timer timer;
 
-    private RXMessageRepository rxMessageRepository = new RXMessageRepository(TokenSingleton.getInstance().getToken());
-    private RXParticipantRepository rxParticipantRepository = new RXParticipantRepository(TokenSingleton.getInstance().getToken());
+    private RXMessageRepository rxMessageRepository = new RXMessageRepository(DataContext.getInstance().getToken());
+    private RXParticipantRepository rxParticipantRepository = new RXParticipantRepository(DataContext.getInstance().getToken());
 
     public ChatViewModel(Room room, GenericRecyclerViewAdapter<MessageViewModel> adapter)
     {
@@ -85,16 +84,30 @@ public class ChatViewModel extends BaseObservable
                     this.participants = new ArrayList<>(listListPair.first);
                     this.setMessages(new ArrayList<>(listListPair.second));
 
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            checkForMessages();
-                        }
-                    },0,5000);
+                    startTimer();
                 });
+    }
+
+    public void startTimer()
+    {
+        timer = new Timer();
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                checkForMessages();
+            }
+        },0,1500);
+    }
+
+    public void stopTimer()
+    {
+        if (timer != null)
+        {
+            timer.cancel();
+            timer.purge();
+        }
     }
 
     private void setMessages(ArrayList<Message> messages)

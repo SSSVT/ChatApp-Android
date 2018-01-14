@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#353333</color>
     <color name="colorAccent">#3176B7</color>
     <color name="toolbarTextColor">#ffffff</color>
+    <color name="MessageOwner">#3176B7</color>
+    <color name="Message">#bebcbc</color>
+    <color name="TextWhite">#ffffff</color>
+    <color name="TextBlack">#000000</color>
 </resources>

@@ -5,7 +5,7 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Friendship;
 import schweika.chatapplication.Repositories.RXFriendshipRepository;
 import schweika.chatapplication.Repositories.RXUserRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
 
 public class AddFriendViewModel
@@ -13,8 +13,8 @@ public class AddFriendViewModel
     private String username;
     private ViewModelListener listener;
 
-    private RXUserRepository rxUserRepository = new RXUserRepository(TokenSingleton.getInstance().getToken());
-    private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(TokenSingleton.getInstance().getToken());
+    private RXUserRepository rxUserRepository = new RXUserRepository(DataContext.getInstance().getToken());
+    private RXFriendshipRepository rxFriendshipRepository = new RXFriendshipRepository(DataContext.getInstance().getToken());
 
     public AddFriendViewModel(ViewModelListener listener)
     {
@@ -33,7 +33,7 @@ public class AddFriendViewModel
 
     public void add()
     {
-        if (username != TokenSingleton.getInstance().getUser().username)
+        if (username != DataContext.getInstance().getUser().username)
         {
 
             rxUserRepository.findByUsername(this.username)
@@ -41,7 +41,7 @@ public class AddFriendViewModel
                     {
                         Friendship friendship = new Friendship();
 
-                        friendship.idSender = TokenSingleton.getInstance().getUser().id;
+                        friendship.idSender = DataContext.getInstance().getUser().id;
                         friendship.idRecipient = user.id;
 
                         return rxFriendshipRepository.create(friendship);

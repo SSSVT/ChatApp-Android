@@ -29,6 +29,7 @@ public class RoomChatFragment extends Fragment
     GenericRecyclerViewAdapter<MessageViewModel> adapter;
     HomeViewModel homeViewModel;
     Room room;
+    ChatViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -62,12 +63,21 @@ public class RoomChatFragment extends Fragment
         recyclerView = view.findViewById(R.id.recyclerView_message);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        binding.setViewModel(new ChatViewModel(room,adapter));
+        viewModel = new ChatViewModel(room,adapter);
+
+        binding.setViewModel(viewModel);
 
         return view;
+    }
+
+    @Override
+    public void onStop()
+    {
+        viewModel.stopTimer();
+
+        super.onStop();
     }
 
 }

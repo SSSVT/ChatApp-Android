@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.R;
 import schweika.chatapplication.Repositories.RXUserRepository;
-import schweika.chatapplication.TokenSingleton;
+import schweika.chatapplication.DataContext;
 import schweika.chatapplication.ViewModels.Interfaces.GenericViewModelListener;
 import schweika.chatapplication.ViewModels.LoginViewModel;
 import schweika.chatapplication.ViewModels.LoginViewModelWrapper;
@@ -65,8 +65,8 @@ public class LoginActivity extends AppCompatActivity implements GenericViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user ->
                 {
-                    TokenSingleton.getInstance().setUser(user);
-                    TokenSingleton.getInstance().setToken(token);
+                    DataContext.getInstance().setUser(user);
+                    DataContext.getInstance().setToken(token);
                     openHomeActivity();
                 });
     }
