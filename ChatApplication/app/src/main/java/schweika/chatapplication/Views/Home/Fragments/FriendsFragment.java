@@ -112,7 +112,7 @@ public class FriendsFragment extends Fragment implements GenericViewModelListene
         recyclerView = view.findViewById(R.id.recyclerView_friend);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         this.timer = new Timer();

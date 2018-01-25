@@ -85,6 +85,9 @@ public class ChatViewModel extends BaseObservable
                     this.setMessages(new ArrayList<>(listListPair.second));
 
                     startTimer();
+                }, throwable ->
+                {
+
                 });
     }
 
@@ -118,8 +121,8 @@ public class ChatViewModel extends BaseObservable
 
         for (Message message : this.messages)
         {
-            Participant participant = getParticipantByUserId(message.idUser);
-            MessageViewModel messageViewModel = new MessageViewModel(message,participant);
+            //Participant participant = getParticipantByUserId(message.idUser);
+            MessageViewModel messageViewModel = new MessageViewModel(message);
             messageViewModels.add(messageViewModel);
         }
 
@@ -132,8 +135,8 @@ public class ChatViewModel extends BaseObservable
         {
             this.messages.add(message);
 
-            Participant participant = getParticipantByUserId(message.idUser);
-            MessageViewModel messageViewModel = new MessageViewModel(message,participant);
+            //Participant participant = getParticipantByUserId(message.idUser);
+            MessageViewModel messageViewModel = new MessageViewModel(message);
             this.adapter.addItem(messageViewModel);
         }
     }
@@ -175,6 +178,9 @@ public class ChatViewModel extends BaseObservable
                 .subscribe(messages1 ->
                 {
                     this.setMessages(new ArrayList<>(messages1));
+                }, throwable ->
+                {
+
                 });
     }
 
@@ -199,6 +205,9 @@ public class ChatViewModel extends BaseObservable
                     .subscribe(() ->
                     {
                         setMessageInput("");
+                    }, throwable ->
+                    {
+
                     });
         }
     }

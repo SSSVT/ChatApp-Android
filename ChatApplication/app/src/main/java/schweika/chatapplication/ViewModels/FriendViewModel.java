@@ -38,6 +38,10 @@ public class FriendViewModel extends BaseObservable
                     this.friendship.accepted = new Date();
                     notifyPropertyChanged(BR.actionMessage);
                     notifyPropertyChanged(BR.displayAdd);
+                    notifyPropertyChanged(BR.displayPending);
+                }, throwable ->
+                {
+
                 });
     }
 
@@ -49,6 +53,9 @@ public class FriendViewModel extends BaseObservable
                 .subscribe(() ->
                 {
                     listener.onActionSuccess(this);
+                }, throwable ->
+                {
+
                 });
     }
 
@@ -87,7 +94,7 @@ public class FriendViewModel extends BaseObservable
     @Bindable
     public boolean getDisplayPending()
     {
-        if (!isFriend() && isSender())
+        if (!isFriend())
             return true;
         else
             return false;
@@ -98,7 +105,7 @@ public class FriendViewModel extends BaseObservable
     {
         if (isSender() && !isFriend())
         {
-            return "Pending friend request.";
+            return "Friend request send.";
         }
         else if (!isFriend())
         {

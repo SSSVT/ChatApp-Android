@@ -14,13 +14,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1">
 
         </android.support.v7.widget.RecyclerView>
@@ -29,7 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:gravity="center"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:weightSum="10">
 
             <EditText
@@ -37,21 +41,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="7"
+                android:layout_weight="8"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="@={viewModel.messageInput}"/>
+                android:text="@={viewModel.messageInput}" />
 
-            <ImageView
-                android:id="@+id/imageView5"
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="3"
-                android:background="?attr/selectableItemBackground"
+                android:layout_weight="2"
                 android:clickable="true"
+                android:onClick="@{() -> viewModel.send()}"
                 android:src="@drawable/ic_send_24dp"
-                android:onClick="@{() -> viewModel.send()}"/>
+                app:backgroundTint="@color/colorPrimary"
+                app:rippleColor="@color/colorPrimaryDark" />
         </LinearLayout>
     </LinearLayout>
 

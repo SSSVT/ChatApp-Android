@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import schweika.chatapplication.R;
 import schweika.chatapplication.ViewModels.Interfaces.ViewModelListener;
@@ -37,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements ViewModelList
     @Override
     public void onActionFailure(String message)
     {
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

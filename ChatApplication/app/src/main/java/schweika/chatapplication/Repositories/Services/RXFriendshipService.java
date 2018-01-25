@@ -36,4 +36,7 @@ public interface RXFriendshipService
 
     @PUT("Friendships/AcceptFriendship/{id}")
     Completable acceptFriendship(@Header("Authorization") String token, @Path("id") UUID id);
+
+    @GET("Friendships/IsUserFriend/{id}")
+    Single<Boolean> isUserFriend(@Header("Authorization") String token, @Path("id") long id);
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,6 @@ import android.widget.PopupMenu;
 
 import schweika.chatapplication.R;
 import schweika.chatapplication.ViewModels.HomeViewModel;
-import schweika.chatapplication.Views.Home.Fragments.FriendRequestsFragment;
 import schweika.chatapplication.Views.Home.Fragments.FriendsFragment;
 import schweika.chatapplication.Views.Home.Fragments.RoomsFragment;
 import schweika.chatapplication.Views.Login.LoginActivity;

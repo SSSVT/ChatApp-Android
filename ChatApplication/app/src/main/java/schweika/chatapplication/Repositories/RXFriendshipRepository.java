@@ -44,4 +44,9 @@ public class RXFriendshipRepository extends RXSecuredRepository
     {
         return client.acceptFriendship(getTokenHeader(),id);
     }
+
+    public Single<Boolean> isUserFriend(long id)
+    {
+        return client.isUserFriend(getTokenHeader(),id);
+    }
 }

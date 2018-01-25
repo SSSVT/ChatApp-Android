@@ -29,4 +29,7 @@ public interface RXRoomService
 
     @DELETE("Rooms/Delete/{id}")
     Completable delete(@Header("Authorization") String token,@Path("id") long id);
+
+    @DELETE("Rooms/LeaveRoom/{id}")
+    Completable leaveRoom(@Header("Authorization") String token,@Path("id") long id);
 }

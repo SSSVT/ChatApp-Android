@@ -37,4 +37,9 @@ public class RXRoomRepository extends RXSecuredRepository
     {
         return client.delete(getTokenHeader(),id);
     }
+
+    public Completable leaveRoom(long id)
+    {
+        return client.leaveRoom(getTokenHeader(),id);
+    }
 }

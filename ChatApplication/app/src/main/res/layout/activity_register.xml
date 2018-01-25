@@ -11,158 +11,231 @@
             type="schweika.chatapplication.ViewModels.RegisterViewModel" />
     </data>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
-
-    <ScrollView
-        android:id="@+id/register_form"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="16dp">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/register_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <EditText
-                android:id="@+id/editText_username"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Username"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.username}"
-                app:error="@{viewModel.usernameError}" />
-
-            <EditText
-                android:id="@+id/editText_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:text="@={viewModel.email}"
-                app:error="@{viewModel.emailError}" />
-
-            <EditText
-                android:id="@+id/editText_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:text="@={viewModel.password}"
-                android:textAlignment="viewStart"
-                app:error="@{viewModel.passwordError}" />
-
-            <EditText
-                android:id="@+id/editText_firstName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="First name"
-                android:inputType="text"
-                android:text="@={viewModel.firstName}"
-                app:error="@{viewModel.firstNameError}" />
-
-            <EditText
-                android:id="@+id/editText_middleName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Middle name"
-                android:inputType="text"
-                android:text="@={viewModel.middleName}"
-                app:error="@{viewModel.middleNameError}" />
-
-            <EditText
-                android:id="@+id/editText_lastName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Last name"
-                android:inputType="textPersonName"
-                android:text="@={viewModel.lastName}"
-                app:error="@{viewModel.lastNameError}" />
-
-            <RadioGroup
-                android:id="@+id/radioGroup_gender"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView_gender"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    android:text="Gender" />
+                    android:gravity="center"
+                    android:text="Registration"
+                    android:textSize="24sp"
+                    android:textColor="@color/colorPrimary"/>
 
-                <RadioButton
-                    android:id="@+id/radioButton_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:onClick="@{() -> viewModel.setGenderMale()}"
-                    android:text="Male" />
+                    android:background="@drawable/ic_input_background"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                <RadioButton
-                    android:id="@+id/radioButton_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <EditText
+                        android:id="@+id/editText_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:text="@={viewModel.email}"
+                        app:error="@{viewModel.emailError}" />
+
+                    <EditText
+                        android:id="@+id/editText_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="Username"
+                        android:inputType="textPersonName"
+                        android:text="@={viewModel.username}"
+                        app:error="@{viewModel.usernameError}" />
+
+                    <EditText
+                        android:id="@+id/editText_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:text="@={viewModel.password}"
+                        android:textAlignment="viewStart"
+                        app:error="@{viewModel.passwordError}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_weight="1"
-                    android:onClick="@{() -> viewModel.setGenderFemale()}"
-                    android:text="Female" />
+                    android:background="@drawable/ic_input_background"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-            </RadioGroup>
+                    <EditText
+                        android:id="@+id/editText_firstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="First name"
+                        android:inputType="text"
+                        android:text="@={viewModel.firstName}"
+                        app:error="@{viewModel.firstNameError}" />
 
-            <TextView
-                android:id="@+id/textView_birthDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Birth date"
-                android:textAlignment="center" />
+                    <EditText
+                        android:id="@+id/editText_middleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="Middle name"
+                        android:inputType="text"
+                        android:text="@={viewModel.middleName}"
+                        app:error="@{viewModel.middleNameError}" />
 
-            <DatePicker
-                android:id="@+id/datePicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:calendarViewShown="false"
-                android:datePickerMode="spinner"
-                android:day="@={viewModel.birthDay}"
-                android:month="@={viewModel.birthMonth}"
-                android:year="@={viewModel.birthYear}" />
+                    <EditText
+                        android:id="@+id/editText_lastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
+                        android:ems="10"
+                        android:hint="Last name"
+                        android:inputType="textPersonName"
+                        android:text="@={viewModel.lastName}"
+                        app:error="@{viewModel.lastNameError}" />
+                </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="@{viewModel.processingState ? View.VISIBLE : View.GONE}" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-            <Button
-                android:id="@+id/button_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Register"
-                android:onClick="@{() -> viewModel.onRegisterClicked()}"
-                android:visibility="@{viewModel.processingState ? View.GONE : View.VISIBLE}" />
+                    <TextView
+                        android:id="@+id/textView_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Gender"
+                        android:textColor="@color/colorPrimary" />
 
-        </LinearLayout>
+                    <RadioGroup
+                        android:id="@+id/radioGroup_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1">
 
-    </ScrollView>
-</LinearLayout>
+                        <RadioButton
+                            android:id="@+id/radioButton_male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.setGenderMale()}"
+                            android:text="Male" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton_female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.setGenderFemale()}"
+                            android:text="Female" />
+
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/textView_birthDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Birth date"
+                        android:textColor="@color/colorPrimary"
+                        android:textAlignment="center" />
+
+                    <DatePicker
+                        android:id="@+id/datePicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        android:day="@={viewModel.birthDay}"
+                        android:month="@={viewModel.birthMonth}"
+                        android:year="@={viewModel.birthYear}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="@{viewModel.processingState ? View.VISIBLE : View.GONE}" />
+
+                    <Button
+                        android:id="@+id/button_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_rounded_button"
+                        android:onClick="@{() -> viewModel.onRegisterClicked()}"
+                        android:text="Register"
+                        android:textColor="@color/TextWhite"
+                        android:visibility="@{viewModel.processingState ? View.GONE : View.VISIBLE}" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
 </layout>

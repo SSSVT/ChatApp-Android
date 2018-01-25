@@ -76,7 +76,7 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
         recyclerView = view.findViewById(R.id.recyclerView_rooms);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         this.timer = new Timer();
@@ -129,7 +129,15 @@ public class RoomsFragment extends Fragment implements RoomViewModelListener
     @Override
     public void onEditRoom(RoomViewModel roomViewModel)
     {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
 
+        EditRoomFragment fragment = new EditRoomFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putLong("id",roomViewModel.room.id);
+        fragment.setArguments(bundle);
+
+        manager.beginTransaction().replace(R.id.fragment_content,fragment,"rooms").addToBackStack("rooms").commit();
     }
 
     @Override

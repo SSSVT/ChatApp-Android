@@ -13,6 +13,7 @@ public class Message
     public Date utcSend;
     public Date utcServerReceived;
     public String content;
+    public String sender;
 
     //public Room room;
     //public User owner;

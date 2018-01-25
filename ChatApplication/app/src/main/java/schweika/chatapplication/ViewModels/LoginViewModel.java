@@ -3,8 +3,11 @@ package schweika.chatapplication.ViewModels;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import org.apache.http.params.HttpParams;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 import schweika.chatapplication.BR;
 import schweika.chatapplication.Models.API.Token;
 import schweika.chatapplication.Models.UserCredentials;
@@ -73,7 +76,21 @@ public class LoginViewModel extends BaseObservable
                 .subscribe(listener::onActionSuccess,
                         throwable ->
                         {
-                            listener.onActionFailure("Login failed");
+                            if (throwable instanceof HttpException) {
+                                HttpException httpException = (HttpException) throwable;
+
+                                if (httpException.code() < 401) {
+                                    listener.onActionFailure("Invalid username or password.");
+                                }
+                                else
+                                {
+                                    listener.onActionFailure("Login failed.");
+                                }
+                            }
+                            else
+                            {
+                                listener.onActionFailure("Login failed.");
+                            }
                         });
     }
 }

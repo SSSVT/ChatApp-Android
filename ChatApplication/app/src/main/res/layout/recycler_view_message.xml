@@ -29,8 +29,8 @@
                 android:id="@+id/textView_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.participant.user.username + `: ` + viewModel.message.content}"
-                android:textColor="@{viewModel.owner ? @color/TextWhite : @color/TextBlack}" />
+                android:text="@{viewModel.message.sender + `: ` + viewModel.message.content}"
+                android:textColor="@{viewModel.owner ? @color/TextWhite : @color/TextOnGray}" />
     </RelativeLayout>
     </RelativeLayout>
 

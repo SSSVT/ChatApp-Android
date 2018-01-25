@@ -13,53 +13,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="5">
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_input_background"
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:onClick="@{() -> viewModel.enter()}">
+            android:orientation="horizontal"
+            android:weightSum="6">
+
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.room.name}" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:text="@{viewModel.room.name}"
+                android:onClick="@{() -> viewModel.enter()}"
+                android:textColor="@color/TextOnGray" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.room.description}" />
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.edit()}"
+                android:visibility="@{viewModel.owner ? View.VISIBLE : View.INVISIBLE}"
+                app:srcCompat="@drawable/ic_edit_24dp" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.remove()}"
+                android:visibility="@{viewModel.owner ? View.VISIBLE : View.GONE}"
+                app:srcCompat="@drawable/ic_delete" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:onClick="@{() -> viewModel.leave()}"
+                android:visibility="@{viewModel.owner ? View.GONE : View.VISIBLE}"
+                app:srcCompat="@drawable/ic_leave" />
+
+
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_edit_24dp"
-            android:onClick="@{() -> viewModel.edit()}"
-            android:visibility="@{viewModel.owner ? View.VISIBLE : View.GONE}"/>
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_friend_remove_24dp"
-            android:onClick="@{() -> viewModel.remove()}"
-            android:visibility="@{viewModel.owner ? View.VISIBLE : View.GONE}"/>
-
-
     </LinearLayout>
 </layout>

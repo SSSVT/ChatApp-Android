@@ -33,26 +33,49 @@ public class AddFriendViewModel
 
     public void add()
     {
-        if (username != DataContext.getInstance().getUser().username)
+        if (!username.equals(DataContext.getInstance().getUser().username))
         {
 
             rxUserRepository.findByUsername(this.username)
-                    .flatMap(user ->
-                    {
-                        Friendship friendship = new Friendship();
-
-                        friendship.idSender = DataContext.getInstance().getUser().id;
-                        friendship.idRecipient = user.id;
-
-                        return rxFriendshipRepository.create(friendship);
-                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe( friendship ->
+                    .subscribe((user)->
                     {
-                        listener.onActionSuccess();
-                    });
+                        if (user != null)
+                        {
+                            rxFriendshipRepository.isUserFriend(user.id)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(aBoolean ->
+                                    {
+                                        if (aBoolean == false)
+                                        {
+                                            Friendship friendship = new Friendship();
 
+                                            friendship.idSender = DataContext.getInstance().getUser().id;
+                                            friendship.idRecipient = user.id;
+
+                                            rxFriendshipRepository.create(friendship)
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(friendship1 ->
+                                                    {
+                                                        listener.onActionSuccess();
+                                                    }, throwable ->
+                                                    {
+
+                                                    });
+
+                                        }
+                                    }, throwable ->
+                                    {
+
+                                    });
+                        }
+                    }, throwable ->
+                    {
+
+                    });
         }
     }
 }

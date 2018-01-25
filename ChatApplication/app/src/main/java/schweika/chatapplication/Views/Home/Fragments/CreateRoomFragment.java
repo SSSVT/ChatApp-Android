@@ -65,7 +65,7 @@ public class CreateRoomFragment extends Fragment implements ViewModelListener
         recyclerView = view.findViewById(R.id.recyclerView_roomFriends);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         binding.setViewModel(viewModel);

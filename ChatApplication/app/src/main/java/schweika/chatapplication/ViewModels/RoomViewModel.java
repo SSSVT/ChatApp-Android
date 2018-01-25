@@ -27,6 +27,9 @@ public class RoomViewModel
                 .subscribe(() ->
                 {
                     listener.onRemoveRoom(this);
+                },error ->
+                {
+
                 });
     }
 
@@ -46,5 +49,29 @@ public class RoomViewModel
     public void enter()
     {
         listener.onEnterRoom(this);
+    }
+
+    public void leave()
+    {
+        rxRoomRepository.leaveRoom(room.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() ->
+                {
+                    listener.onRemoveRoom(this);
+                },error ->
+                {
+
+                });
+    }
+
+    public boolean getDescriptionDisplay()
+    {
+        if (room.description == null)
+            return false;
+        else if (room.description.equals(""))
+            return false;
+        else
+            return true;
     }
 }

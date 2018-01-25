@@ -15,11 +15,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_rooms"
+                android:id="@+id/textView_friends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="Rooms"
                 android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements GenericViewModel
     @Override
     public void onActionFailure(String message)
     {
-        //TODO: Show something
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

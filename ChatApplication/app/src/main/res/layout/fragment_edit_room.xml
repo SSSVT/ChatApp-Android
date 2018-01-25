@@ -79,7 +79,7 @@
             android:layout_weight="0"
             android:background="@drawable/ic_rounded_button"
             android:onClick="@{() -> viewModel.create()}"
-            android:text="Create"
+            android:text="Apply"
             android:textColor="@color/TextWhite" />
     </LinearLayout>
 
